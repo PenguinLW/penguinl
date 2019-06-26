@@ -5,7 +5,6 @@ cryptography==1.2.3
 future==0.17.1
 httplib2==0.9.1
 idna==2.0
-louis==2.6.4
 lxml==3.5.0
 Mako==1.0.3
 MarkupSafe==0.23
