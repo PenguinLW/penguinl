@@ -1,6 +1,3 @@
-apt-clone
-apt-xapian-index
-apturl
 blinker
 Brlapi
 certifi
