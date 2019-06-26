@@ -12,7 +12,7 @@ def answer_user(p_bot: Bot, update: Update):
 
 def app_run():
     commande_handler = [];
-    p_bot = Bot(token="639880775:AAFdOtEP2m_1p5ctsB_AAUgE-zb8KSKCUKg", base_url="https://telegg.ru/orig/bot");
+    p_bot = Bot(token="639880775:AAFdOtEP2m_1p5ctsB_AAUgE-zb8KSKCUKg");
     updater = Updater(bot=p_bot);
     
     commande_handler.append(CommandHandler("start", hola_user));
