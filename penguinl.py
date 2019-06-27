@@ -1,5 +1,4 @@
 from time import sleep;
-from flask import Flask;
 from telegram import Bot;
 from telegram import Update;
 from telegram.ext import Updater;
@@ -9,12 +8,7 @@ from telegram.ext import Filters;
 
 from config import P_Bot;
 
-app = Flask(__name__);
 p_inf = P_Bot();
-@app.route("/")
-@app.route("/index")
-def index():
-    return "in_worked;"
 def hola_user(p_bot: Bot, update: Update):
     p_bot.send_message(
         chat_id=update.message.chat_id,
@@ -46,4 +40,3 @@ def app_run():
 
 if(__name__ == "__main__"):
     app_run();
-    app.run();
