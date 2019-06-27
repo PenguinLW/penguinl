@@ -1,3 +1,4 @@
+from flask import Flask;
 from telegram import Bot;
 from telegram import Update;
 from telegram.ext import Updater;
@@ -5,6 +6,7 @@ from telegram.ext import CommandHandler;
 from telegram.ext import MessageHandler;
 from telegram.ext import Filters;
 
+app = Flask(__name__);
 def hola_user(p_bot: Bot, update: Update):
     p_bot.send_message(chat_id=update.message.chat_id, text="hola");
 def answer_user(p_bot: Bot, update: Update):
@@ -25,3 +27,4 @@ def app_run():
 
 if(__name__ == "__main__"):
     app_run();
+    app.run();
