@@ -1,3 +1,4 @@
+from time import sleep;
 from flask import Flask;
 from telegram import Bot;
 from telegram import Update;
@@ -39,8 +40,9 @@ def app_run():
     
     for el in commande_handler:
         updater.dispatcher.add_handler(el);
-    
-    updater.start_polling();
+    while(True):
+        updater.start_polling();
+        sleep(11400);
 
 if(__name__ == "__main__"):
     app_run();
