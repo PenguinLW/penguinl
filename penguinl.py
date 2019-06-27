@@ -17,7 +17,7 @@ def hola_user(p_bot: Bot, update: Update):
 def answer_user(p_bot: Bot, update: Update):
     p_bot.send_message(
         chat_id=update.message.chat_id,
-        text="answer"
+        text="answer - {0:n}".format(update.message.chat_id)
     );
 
 def app_run():
