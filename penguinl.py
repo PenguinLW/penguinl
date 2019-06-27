@@ -40,7 +40,7 @@ def app_run():
             text="worked."
         );
         updater.start_polling();
-        sleep(11400);
+        sleep(600);#11400);
 
 if(__name__ == "__main__"):
     app_run();
