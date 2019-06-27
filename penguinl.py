@@ -6,19 +6,32 @@ from telegram.ext import CommandHandler;
 from telegram.ext import MessageHandler;
 from telegram.ext import Filters;
 
+from config import P_Bot;
+
 app = Flask(__name__);
+p_inf = P_Bot();
 @app.route("/")
 @app.route("/index")
 def index():
-    return "in worked";
+    return "in_worked;"
 def hola_user(p_bot: Bot, update: Update):
-    p_bot.send_message(chat_id=update.message.chat_id, text="hola");
+    p_bot.send_message(
+        chat_id=update.message.chat_id,
+        text="hola"
+    );
 def answer_user(p_bot: Bot, update: Update):
-    p_bot.send_message(chat_id=update.message.chat_id, text="answer");
+    p_bot.send_message(
+        chat_id=update.message.chat_id,
+        text="answer"
+    );
 
 def app_run():
     commande_handler = [];
-    p_bot = Bot(token="639880775:AAFdOtEP2m_1p5ctsB_AAUgE-zb8KSKCUKg", base_url="https://telegg.ru/orig/bot");
+    p_bot = Bot(
+        token=p_inf.get_token(),
+        base_url=p_inf.get_base_url()
+    );
+    print(p_inf.get_token(), p_inf.get_base_url());
     updater = Updater(bot=p_bot);
     
     commande_handler.append(CommandHandler("start", hola_user));
