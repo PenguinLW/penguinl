@@ -7,6 +7,10 @@ from telegram.ext import MessageHandler;
 from telegram.ext import Filters;
 
 app = Flask(__name__);
+@app.route("/")
+@app.route("/index")
+def index():
+    return "in worked";
 def hola_user(p_bot: Bot, update: Update):
     p_bot.send_message(chat_id=update.message.chat_id, text="hola");
 def answer_user(p_bot: Bot, update: Update):
