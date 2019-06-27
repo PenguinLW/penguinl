@@ -17,7 +17,7 @@ def hola_user(p_bot: Bot, update: Update):
 def answer_user(p_bot: Bot, update: Update):
     p_bot.send_message(
         chat_id=update.message.chat_id,
-        text="answer - {0:n}".format(update.message.chat_id)
+        text="answer"
     );
 
 def app_run():
@@ -35,8 +35,12 @@ def app_run():
     for el in commande_handler:
         updater.dispatcher.add_handler(el);
     while(True):
+        p_bot.send_message(
+            chat_id=696236779,
+            text="worked."
+        );
         updater.start_polling();
-        sleep(11400);
+        sleep(30);
 
 if(__name__ == "__main__"):
     app_run();
