@@ -47,4 +47,4 @@ if(__name__ == "__main__"):
     app = App();
     while(True):
         app.app_run();
-        sleep(3);#600);#11400);
+        sleep(600);#11400);
