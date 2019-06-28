@@ -7,8 +7,8 @@ from telegram.ext import MessageHandler;
 from telegram.ext import Filters;
 
 from config import P_Bot;
--
-command_handler = p_bot = p_inf = updater = null;
+
+command_handler = p_bot = p_inf = updater = "";
 def hola_user(p_bot: Bot, update: Update):
     p_bot.send_message(
         chat_id=update.message.chat_id,
@@ -20,8 +20,8 @@ def answer_user(p_bot: Bot, update: Update):
         text="answer"
     );
 class App():
-    global command_handler, p_bot, p_inf, updater;
     def __init__(app):
+        global command_handler, p_bot, p_inf, updater;
         commande_handler = [];
         p_inf = P_Bot();
         p_bot = Bot(
@@ -29,13 +29,14 @@ class App():
             base_url=p_inf.get_base_url()
         );
         updater = Updater(bot=p_bot);
-
+        
         commande_handler.append(CommandHandler("start", hola_user));
         commande_handler.append(MessageHandler(Filters.text, answer_user));
         
         for el in commande_handler:
             updater.dispatcher.add_handler(el);
     def app_run(app):
+        global p_bot, p_inf, updater;
         p_bot.send_message(
             chat_id=p_inf.get_admin_id(),
             text="worked."
