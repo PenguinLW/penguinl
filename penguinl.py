@@ -7,7 +7,7 @@ from telegram.ext import MessageHandler;
 from telegram.ext import Filters;
 
 from config import P_Bot;
-
+-
 command_handler = p_bot = p_inf = updater = null;
 def hola_user(p_bot: Bot, update: Update):
     p_bot.send_message(
@@ -23,11 +23,11 @@ class App():
     global command_handler, p_bot, p_inf, updater;
     def __init__(app):
         commande_handler = [];
+        p_inf = P_Bot();
         p_bot = Bot(
             token=p_inf.get_token(),
             base_url=p_inf.get_base_url()
         );
-        p_inf = P_Bot();
         updater = Updater(bot=p_bot);
 
         commande_handler.append(CommandHandler("start", hola_user));
@@ -37,7 +37,7 @@ class App():
             updater.dispatcher.add_handler(el);
     def app_run(app):
         p_bot.send_message(
-            chat_id=p_inf.get_admin(),
+            chat_id=p_inf.get_admin_id(),
             text="worked."
         );
         updater.start_polling();
