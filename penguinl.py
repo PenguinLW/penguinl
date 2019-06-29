@@ -45,6 +45,7 @@ class App():
 
 if(__name__ == "__main__"):
     app = App();
-    while(True):
-        app.app_run();
-        sleep(600);#11400);
+    app.app_run();
+    #while(True):
+    #    app.app_run();
+    #    sleep(600);#11400);
