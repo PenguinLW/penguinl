@@ -1,3 +1,4 @@
+import psycopg2;
 from time import sleep;
 from telegram import Bot;
 from telegram import Update;
