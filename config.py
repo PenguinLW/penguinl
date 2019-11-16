@@ -1,3 +1,4 @@
+import psycopg2;
 p_token = p_base_url = p_admin_id = "";
 class P_Bot:
     def __init__(app):
