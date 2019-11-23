@@ -48,8 +48,8 @@ if(__name__ == "__main__"):
     con = psycopg2.connect(
         host = "ec2-79-125-4-72.eu-west-1.compute.amazonaws.com",
         database = "d4gh86bmbovta3",
-        user = "postgres",
-        password = "postgres"
+        user = "svnlghwnrdjbdt",
+        password = "8684c48054603cb06ee7ea4bc3116909bcb6cd4faaa794891874141914517e20"
     );
     app = App();
     app.app_run();
