@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="df1d0b27-b3e6-4214-87ad-d0e93f7bad52" name="Default Changelist" comment="" />
-    <list id="7759ca37-54dd-4907-95f3-47570243a692" name="Revert &quot;Delete vcs.xml&quot;" comment="Revert &quot;Delete vcs.xml&quot;&#10;&#10;This reverts commit aa5279cd">
+    <list default="true" id="df1d0b27-b3e6-4214-87ad-d0e93f7bad52" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
+    <list id="7759ca37-54dd-4907-95f3-47570243a692" name="Revert &quot;Delete vcs.xml&quot;" comment="Revert &quot;Delete vcs.xml&quot;&#10;&#10;This reverts commit aa5279cd" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1VkVt66hczBPsMRBC557G1CJ6QZ" />
@@ -91,10 +97,14 @@
       <screen x="0" y="0" width="1280" height="773" />
     </state>
     <state x="144" y="20" key="SettingsEditor/0.0.1280.773@0.0.1280.773" timestamp="1577799782997" />
-    <state x="235" y="121" width="800" height="525" key="Vcs.Push.Dialog.v2" timestamp="1577799883406">
+    <state x="100" y="99" width="1080" height="573" key="ShowDiffWithBranchDialog" timestamp="1577800824358">
       <screen x="0" y="0" width="1280" height="773" />
     </state>
-    <state x="235" y="121" width="800" height="525" key="Vcs.Push.Dialog.v2/0.0.1280.773@0.0.1280.773" timestamp="1577799883406" />
+    <state x="100" y="99" width="1080" height="573" key="ShowDiffWithBranchDialog/0.0.1280.773@0.0.1280.773" timestamp="1577800824358" />
+    <state x="235" y="121" width="800" height="525" key="Vcs.Push.Dialog.v2" timestamp="1577800838981">
+      <screen x="0" y="0" width="1280" height="773" />
+    </state>
+    <state x="235" y="121" width="800" height="525" key="Vcs.Push.Dialog.v2/0.0.1280.773@0.0.1280.773" timestamp="1577800838981" />
     <state x="333" y="213" key="com.intellij.ide.util.TipDialog" timestamp="1577798295982">
       <screen x="0" y="0" width="1280" height="773" />
     </state>
