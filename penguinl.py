@@ -45,12 +45,18 @@ class App():
         updater.start_polling();
 
 if(__name__ == "__main__"):
-    con = psycopg2.connect(
+    conn = psycopg2.connect(
         host = "ec2-79-125-4-72.eu-west-1.compute.amazonaws.com",
         database = "d4gh86bmbovta3",
         user = "svnlghwnrdjbdt",
         password = "8684c48054603cb06ee7ea4bc3116909bcb6cd4faaa794891874141914517e20"
     );
+    p_user_db = conn.cursor();
+    p_user_db.execute("""
+    CREATE TABLE IF NOT EXISTS Persons(
+    PersonID int
+);
+""");
     app = App();
     app.app_run();
     #while(True):
