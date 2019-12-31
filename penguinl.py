@@ -25,7 +25,7 @@ class App():
     def answer_user(app, p_bot: Bot, update: Update):
         app.send_answer(
             update.message.chat_id,
-            "Рад bВашему слову.",
+            "Рад Вашему слову.",
             "html"
         );
     def send_answer(app, chat_id, text, p_m):
