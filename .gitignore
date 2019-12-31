@@ -1,5 +1,4 @@
-.git
-.idea
-__pycache__
+.gitignore
+.idea/vcs.xml
 app_run.sh
 release.sh
