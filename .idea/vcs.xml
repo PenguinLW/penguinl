@@ -2,5 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+<<<<<<< HEAD
+=======
+    <mapping directory="$PROJECT_DIR$/planner_penguinl" vcs="Git" />
+>>>>>>> parent of aa5279c... Delete vcs.xml
   </component>
 </project>
