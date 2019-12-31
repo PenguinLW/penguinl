@@ -1,5 +1,5 @@
 import psycopg2;
-import sqlite3;
+# import sqlite3;
 class P_Bot:
     #выполнение взаимодействия с базой данных пользователей "начавших общение"
     def connect_to_db(app):
