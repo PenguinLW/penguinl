@@ -57,6 +57,9 @@ if(__name__ == "__main__"):
     PersonID int
 );
 """);
+    conn.commit();
+    p_user_db.close();
+    conn.close();
     app = App();
     app.app_run();
     #while(True):
