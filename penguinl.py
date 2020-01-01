@@ -49,9 +49,7 @@ class App():
         
         for el in app.commande_handler:
             app.updater.dispatcher.add_handler(el);
-        while True:
-            app.app_run();
-            sleep(240);
+        app.app_run();
     def app_run(app):
         app.updater.start_polling();
 
