@@ -1,5 +1,4 @@
 import psycopg2;
-# import sqlite3;
 class P_Bot:
     #выполнение взаимодействия с базой данных пользователей "начавших общение"
     def connect_to_db(app):
@@ -7,7 +6,6 @@ class P_Bot:
             Соединение с базой данных - открытие
             соединия и создание "курсора".
         """
-        # app.conn = sqlite3.connect("pbudb.db");
         app.conn = psycopg2.connect(
             host = "ec2-79-125-4-72.eu-west-1.compute.amazonaws.com",
             database = "d4gh86bmbovta3",
@@ -19,7 +17,7 @@ class P_Bot:
         """
             Инициализация базы данных - создание таблицы
             с главной информацией об "общающихся
-            пользователях" при её отстутсвии.
+            пользователях" при её отстутствии.
         """
         app.p_user_db.execute("""
     CREATE TABLE IF NOT EXISTS Persons(

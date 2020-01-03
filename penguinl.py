@@ -1,4 +1,3 @@
-from time import sleep;
 from telegram import Bot;
 from telegram import Update;
 from telegram.ext import Updater;
@@ -12,9 +11,13 @@ class App():
     def hola_user(app, p_bot: Bot, update: Update):
         content = "";
         if(app.p_inf.search_person(update.message.chat_id) == 0):
-            print(update.message.chat_id);
             app.p_inf.add_person(update.message.chat_id);
-            content = "Приветсвую!!";
+            content = "Приветствую!!";
+            app.send_answer(
+                app.p_inf.get_admin_id(),
+                "кто-то пришёл: {0:n}".format(update.message.chat_id),
+                "markdown"
+            );
         else:
             content = "Мы уже с Вами знакомы, день добрый!!";
         app.send_answer(
