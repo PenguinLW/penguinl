@@ -10,13 +10,12 @@ from config import P_Bot;
 class App():
     def hola_user(app, p_bot: Bot, update: Update):
         content = "";
-        print(update.message.from_user.id);
-        if(app.p_inf.search_person(update.message.chat_id) == 0):
-            app.p_inf.add_person(update.message.chat_id);
+        if(app.p_inf.search_person(update.message.from_user.id) == 0):
+            app.p_inf.add_person(update.message.from_user.id);
             content = "Приветствую!!";
             app.send_answer(
                 app.p_inf.get_admin_id(),
-                "кто-то пришёл: {0:n}".format(update.message.from_user.id),
+                "кто-то пришёл: {0:n} сюда: {1:n}".format(update.message.from_user.id, update.message.chat_id),
                 "markdown"
             );
         else:

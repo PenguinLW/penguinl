@@ -24,6 +24,11 @@ class P_Bot:
     PersonID int
 );
 """);
+        app.p_user_db.execute("""
+            SELECT *
+            FROM Persons
+        """);
+        print("db : "+str(app.p_user_db.fetchall())[0:-3][2:]);
     def commit_changes_db(app):
         """
             Подтверждение действия в базе данных, такого как,
@@ -90,6 +95,7 @@ class P_Bot:
             ({0:n})
             """.format(person_id)
         );
+        print(person_id);
         app.commit_changes_db();
         app.disconnect_user_db();
     
