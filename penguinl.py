@@ -5,6 +5,8 @@ from telegram.ext import CommandHandler;
 from telegram.ext import MessageHandler;
 from telegram.ext import Filters;
 
+import apiai, json;
+
 from config import P_Bot;
 
 class App():
@@ -27,11 +29,25 @@ class App():
         );
             
     def answer_user(app, p_bot: Bot, update: Update):
-        app.send_answer(
-            update.message.chat_id,
-            "Рад Вашему слову.",
-            "html"
-        );
+        req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
+        req.lang = "ru";
+        req.session_id = "PenguinL";
+        req.query = update.message.text;
+
+        res = json.loads(req.getresponse().read().decode("utf-8"));
+        res = res["result"]["fulfillment"]["speech"];
+        if res:
+            app.send_answer(
+                update.message.chat_id,
+                res,
+                "html"
+            );
+        else:
+            app.send_answer(
+                update.message.chat_id,
+                "Рад Вашему слову.",
+                "html"
+            );
     def send_answer(app, chat_id, text, p_m):
         app.p_bot.send_message(
             chat_id = chat_id,
