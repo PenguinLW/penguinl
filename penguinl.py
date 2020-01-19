@@ -161,7 +161,7 @@ class App():
             app.updater.dispatcher.add_handler(el);
         app.app_run();
     def app_run(app):
-        # app.updater.start_polling();
+        app.updater.start_polling();
 
         # add handlers
         app.updater.start_webhook(listen="0.0.0.0",
