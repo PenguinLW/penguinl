@@ -14,6 +14,14 @@ import apiai, json, time;
 
 from config import P_Bot;
 
+num = [];
+do_act = {
+    "+": sum(),
+    "-": sum(),
+    "*": sum(),
+    "/": sum(),
+    "%": sum()
+};
 class App():
     def hola_user(app, p_bot: Bot, update: Update):
         content = "";
@@ -62,12 +70,12 @@ class App():
             [[InlineKeyboardButton("1", callback_data='1'),
                     InlineKeyboardButton("2", callback_data='2'),
                     InlineKeyboardButton("3", callback_data='3'),
-                    InlineKeyboardButton("4", callback_data='4'),
-                    InlineKeyboardButton("5", callback_data='5'),
+                    InlineKeyboardButton("4", callback_data='4')],
+            [InlineKeyboardButton("5", callback_data='5'),
                     InlineKeyboardButton("6", callback_data='6'),
                     InlineKeyboardButton("7", callback_data='7'),
-                    InlineKeyboardButton("8", callback_data='8'),
-                    InlineKeyboardButton("9", callback_data='9'),
+                    InlineKeyboardButton("8", callback_data='8')],
+            [InlineKeyboardButton("9", callback_data='9'),
                     InlineKeyboardButton("0", callback_data='0')],
              [InlineKeyboardButton("+", callback_data='+'),
                     InlineKeyboardButton("-", callback_data='-')],
@@ -87,14 +95,14 @@ class App():
         query = update.callback_query;
         app.calc.append(query.data);
         if(query.data == "="):
+            global num, do_act;
             res = 0;
-            a = int(app.calc[0]);
-            act = app.calc[1];
-            b = int(app.calc[2]);
-            if(act == "+"):
-                res = a + b;
-            elif(act == "-"):
-                res = a - b;
+            a = int(num[0]);
+            act = num[1];
+            b = int(num[2]);
+
+            do_act[act](a, b);
+            num = [];
             query.edit_message_text(res);
             time.sleep(25);
             app.p_bot.delete_message(query.message.chat_id, query.message.message_id);
@@ -107,8 +115,6 @@ class App():
             base_url = app.p_inf.get_base_url()
         );
         app.updater = Updater(bot = app.p_bot);
-
-        app.calc = [];
 
         app.commande_handler.append(CommandHandler("start", app.hola_user));
         app.commande_handler.append(CommandHandler("la_calculadora", app.la_calculadora));
