@@ -7,5 +7,9 @@ gitignore
 .idea/planner_penguinl.iml
 .idea/inspectionProfiles/profiles_settings.xml
 __pycache__/config.cpython-35.pyc
+__pycache__/calculate.cpython-35.pyc
 app_run.sh
 release.sh
+get_key.sh
+private.key
+cert.pem
