@@ -163,14 +163,12 @@ class App():
     def app_run(app):
         # app.updater.start_polling();
 
-        TOKEN = app.p_inf.get_token();
-        PORT = int(os.environ.get('PORT', '8443'))
-        updater = Updater(TOKEN)
         # add handlers
-        updater.start_webhook(listen="0.0.0.0",
-                              port=PORT,
-                              url_path=TOKEN)
-        updater.bot.set_webhook("https://penguinl.herokuapp.com/" + TOKEN)
+        app.updater.start_webhook(listen="0.0.0.0",
+                              port=int(os.environ.get('PORT', '8443')),
+                              url_path=app.p_inf.get_token()
+                              )
+        app.updater.bot.set_webhook("https://penguinl.herokuapp.com/" + app.p_inf.get_token())
 
         app.updater.idle();
 
