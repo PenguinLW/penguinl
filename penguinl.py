@@ -70,7 +70,10 @@ class App():
                     InlineKeyboardButton("8", callback_data=8)],
             [InlineKeyboardButton("9", callback_data=9),
                     InlineKeyboardButton("0", callback_data=0),
-                    InlineKeyboardButton(".", callback_data=".")],
+                    InlineKeyboardButton(".", callback_data="."),
+                    InlineKeyboardButton("bin", callback_data="0b"),
+                    InlineKeyboardButton("oct", callback_data="0o"),
+                    InlineKeyboardButton("hex", callback_data="0x")],
              [InlineKeyboardButton("+", callback_data='+'),
                     InlineKeyboardButton("-", callback_data='-'),
                     InlineKeyboardButton("*", callback_data='*'),
@@ -161,14 +164,15 @@ class App():
             app.updater.dispatcher.add_handler(el);
         app.app_run();
     def app_run(app):
-        # app.updater.start_polling();
-
-        # add handlers
-        app.updater.start_webhook(listen="0.0.0.0",
-                              port=int(os.environ.get('PORT', '8443')),
-                              url_path=app.p_inf.get_token()
-                              )
-        app.updater.bot.set_webhook("https://penguinl.herokuapp.com/" + app.p_inf.get_token())
+        if(not app.f_flag):
+            app.updater.start_polling();
+        else:
+            # add handlers
+            app.updater.start_webhook(listen="0.0.0.0",
+                                  port=int(os.environ.get('PORT', '8443')),
+                                  url_path=app.p_inf.get_token()
+                                  )
+            app.updater.bot.set_webhook("https://penguinl.herokuapp.com/" + app.p_inf.get_token())
 
         app.updater.idle();
 
