@@ -146,7 +146,7 @@ class App():
             chat_id = chat_id,
             text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
             parse_mode = p_m,
-            reply_markup=ReplyKeyboardMarkup([KeyboardButton("")], resize_keyboard=True, one_time_keyboard=True, selective=True)
+            reply_markup = ReplyKeyboardMarkup([KeyboardButton("")], resize_keyboard=True, one_time_keyboard=True, selective=True)
         );
 
     def __init__(app):
@@ -177,11 +177,12 @@ class App():
             app.updater.start_polling();
         else:
             # add handlers
-            app.updater.start_webhook(listen="0.0.0.0",
-                                  port=int(os.environ.get('PORT', '8443')),
-                                  url_path=app.p_inf.get_token()
-                                  )
-            app.updater.bot.set_webhook("https://penguinl.herokuapp.com/" + app.p_inf.get_token())
+            app.updater.start_webhook(
+                listen = "0.0.0.0",
+                port = int(os.environ.get('PORT', '8443')),
+                url_path = app.p_inf.get_token()
+            );
+            app.updater.bot.set_webhook("https://penguinl.herokuapp.com/" + app.p_inf.get_token());
 
         app.updater.idle();
 
