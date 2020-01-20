@@ -164,7 +164,7 @@ class App():
             app.updater.dispatcher.add_handler(el);
         app.app_run();
     def app_run(app):
-        if(not app.f_flag):
+        if(app.f_flag):
             app.updater.start_polling();
         else:
             # add handlers
