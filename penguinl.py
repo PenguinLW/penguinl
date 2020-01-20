@@ -1,5 +1,7 @@
 from telegram import Bot;
 from telegram import Update;
+from telegram import KeyboardButton;
+from telegram import ReplyKeyboardMarkup;
 from telegram import InlineKeyboardButton;
 from telegram import InlineKeyboardMarkup;
 from telegram.ext import Updater;
@@ -32,27 +34,6 @@ class App():
             content,
             "markdown"
         );
-            
-    def answer_user(app, p_bot: Bot, update: Update):
-        req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
-        req.lang = "ru";
-        req.session_id = "PenguinL";
-        req.query = update.message.text;
-
-        res = json.loads(req.getresponse().read().decode("utf-8"));
-        res = res["result"]["fulfillment"]["speech"];
-        if res:
-            app.send_answer(
-                update.message.chat_id,
-                res,
-                "html"
-            );
-        else:
-            app.send_answer(
-                update.message.chat_id,
-                "Рад Вашему слову.",
-                "html"
-            );
 
     def help_user(app, p_bot: Bot, update: Update):
         pass;
@@ -84,14 +65,7 @@ class App():
 
         update.message.reply_text('Please choose:', reply_markup=reply_markup);
         app.p_bot.delete_message(update.message.chat_id, update.message.message_id);
-
-    def send_answer(app, chat_id, text, p_m):
-        app.p_bot.send_message(
-            chat_id = chat_id,
-            text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
-            parse_mode = p_m
-        );
-    def button(app, p_bot: Bot, update: Update):
+    def calc_b(app, p_bot: Bot, update: Update):
         c = app.c;
         query = update.callback_query;
         try:
@@ -143,6 +117,38 @@ class App():
             app.f_flag = False;
             app.p_bot.delete_message(query.message.chat_id, query.message.message_id);
 
+    def el_minutero(app, p_bot: Bot, update: Update):
+        pass;
+
+    def answer_user(app, p_bot: Bot, update: Update):
+        req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
+        req.lang = "ru";
+        req.session_id = "PenguinL";
+        req.query = update.message.text;
+
+        res = json.loads(req.getresponse().read().decode("utf-8"));
+        res = res["result"]["fulfillment"]["speech"];
+        if res:
+            app.send_answer(
+                update.message.chat_id,
+                res,
+                "html"
+            );
+        else:
+            app.send_answer(
+                update.message.chat_id,
+                "Рад Вашему слову.",
+                "html"
+            );
+
+    def send_answer(app, chat_id, text, p_m):
+        app.p_bot.send_message(
+            chat_id = chat_id,
+            text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
+            parse_mode = p_m,
+            reply_markup=ReplyKeyboardMarkup([KeyboardButton("")], resize_keyboard=True, one_time_keyboard=True, selective=True)
+        );
+
     def __init__(app):
         app.commande_handler = [];
         app.p_inf = P_Bot();
@@ -156,9 +162,12 @@ class App():
         app.f_flag = False;
 
         app.commande_handler.append(CommandHandler("start", app.hola_user));
+        app.commande_handler.append(CommandHandler("la_comienzo", app.hola_user));
         app.commande_handler.append(CommandHandler("la_calculadora", app.la_calculadora));
+        app.commande_handler.append(CommandHandler("crearplan", app.el_minutero));
+        app.commande_handler.append(CommandHandler("el_minutero", app.el_minutero));
         app.commande_handler.append(MessageHandler(Filters.text, app.answer_user));
-        app.commande_handler.append(CallbackQueryHandler(app.button));
+        app.commande_handler.append(CallbackQueryHandler(app.calc_b));
         
         for el in app.commande_handler:
             app.updater.dispatcher.add_handler(el);
