@@ -146,7 +146,7 @@ class App():
             chat_id = chat_id,
             text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
             parse_mode = p_m,
-            reply_markup = ReplyKeyboardMarkup([[KeyboardButton("++"), KeyboardButton("--")]], resize_keyboard=True, one_time_keyboard=True, selective=True)
+            reply_markup = ReplyKeyboardMarkup([[KeyboardButton("/set_plan"), KeyboardButton("--")]], resize_keyboard=True, one_time_keyboard=True, selective=True)
         );
 
     def __init__(app):
