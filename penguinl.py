@@ -117,8 +117,10 @@ class App():
             app.f_flag = False;
             app.p_bot.delete_message(query.message.chat_id, query.message.message_id);
 
+    def cr_unplan(app, p_bot: Bot, update: Update):
+        app.p_inf.crear_unplan(update.message.chat_id);
     def el_minutero(app, p_bot: Bot, update: Update):
-        app.p_inf.create_person();
+        app.p_inf.estab_unplan(update.message.chat_id);
 
     def answer_user(app, p_bot: Bot, update: Update):
         req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
@@ -146,7 +148,7 @@ class App():
             chat_id = chat_id,
             text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
             parse_mode = p_m,
-            reply_markup = ReplyKeyboardMarkup([[KeyboardButton("/set_plan"), KeyboardButton("--")]], resize_keyboard=True, one_time_keyboard=True, selective=True)
+            reply_markup = ReplyKeyboardMarkup([[KeyboardButton("/el_minutero"), KeyboardButton("--")]], resize_keyboard=True, one_time_keyboard=True, selective=True)
         );
 
     def __init__(app):
@@ -164,7 +166,7 @@ class App():
         app.commande_handler.append(CommandHandler("start", app.hola_user));
         app.commande_handler.append(CommandHandler("la_comienzo", app.hola_user));
         app.commande_handler.append(CommandHandler("la_calculadora", app.la_calculadora));
-        app.commande_handler.append(CommandHandler("crearplan", app.el_minutero));
+        app.commande_handler.append(CommandHandler("crearplan", app.cr_unplan));
         app.commande_handler.append(CommandHandler("el_minutero", app.el_minutero));
         app.commande_handler.append(MessageHandler(Filters.text, app.answer_user));
         app.commande_handler.append(CallbackQueryHandler(app.calc_b));

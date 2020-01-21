@@ -54,7 +54,7 @@ class P_Bot:
         );
         app.db.commit_changes_db();
         app.db.disconnect_user_db();
-    def create_plan(app, person_id):
+    def crear_unplan(app, person_id):
         """
             Добавление личной рабочей инф пользователя - последующая ..
             notes
@@ -64,7 +64,7 @@ class P_Bot:
         """
         app.db.connect_to_db();
         app.db.p_user_db.execute("""
-        CREATE TABLE IF NOT EXISTS {0:s}(
+        CREATE TABLE IF NOT EXISTS {0:}(
         row_cnt serial primary_key,
         a varchar(255),
         b varchar(255),
@@ -72,6 +72,37 @@ class P_Bot:
         d varchar(255)
     );
     """.format(person_id));
+        app.db.commit_changes_db();
+        app.db.disconnect_user_db();
+    def estab_unplan(app, person_id):
+        """
+            .
+        """
+        app.db.connect_to_db();
+        app.db.p_user_db.execute(
+            """
+            INSERT INTO {0:}
+            (a)
+            VALUES
+            ({1:s})
+            """.format(person_id, "+79041239771 сибирский стражник (связь) ")
+        );
+        app.db.p_user_db.execute(
+            """
+            INSERT INTO {0:}
+            (b)
+            VALUES
+            ({1:s})
+            """.format(person_id, "+79501161160 Софтиум, терешковой 15б-10 (вт 11:30ч.)")
+        );
+        app.db.p_user_db.execute(
+            """
+            INSERT INTO {0:}
+            (c)
+            VALUES
+            ({1:s})
+            """.format(person_id, "+79140024101 перспектива 24 (вт 14:10ч.)")
+        );
         app.db.commit_changes_db();
         app.db.disconnect_user_db();
     
