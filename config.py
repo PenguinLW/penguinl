@@ -64,8 +64,8 @@ class P_Bot:
         """
         app.db.connect_to_db();
         app.db.p_user_db.execute("""
-        CREATE TABLE IF NOT EXISTS {0:}(
-        row_cnt serial primary_key,
+        CREATE TABLE IF NOT EXISTS _{0:}(
+        row_cnt serial,
         a varchar(255),
         b varchar(255),
         c varchar(255),
@@ -82,33 +82,33 @@ class P_Bot:
         app.db.connect_to_db();
         app.db.p_user_db.execute(
             """
-            INSERT INTO {0:}
+            INSERT INTO _{0:}
             (a)
             VALUES
             ({1:s})
-            """.format(person_id, "+79041239771 сибирский стражник (связь) ")
+            """.format(person_id, "'+79041239771 сибирский стражник (связь) '")
         );
         app.db.p_user_db.execute(
             """
-            INSERT INTO {0:}
+            INSERT INTO _{0:}
             (b)
             VALUES
             ({1:s})
-            """.format(person_id, "+79501161160 Софтиум, терешковой 15б-10 (вт 11:30ч.)")
+            """.format(person_id, "'+79501161160 Софтиум, терешковой 15б-10 (вт 11:30ч.)'")
         );
         app.db.p_user_db.execute(
             """
-            INSERT INTO {0:}
+            INSERT INTO _{0:}
             (c)
             VALUES
             ({1:s})
-            """.format(person_id, "+79140024101 перспектива 24 (вт 14:10ч.)")
+            """.format(person_id, "'+79140024101 перспектива 24 (вт 14:10ч.)'")
         );
         app.db.commit_changes_db();
         app.db.p_user_db.execute(
             """
             SELECT *
-            FROM {0:}
+            FROM _{0:}
             """.format(person_id)
         );
         tmp_string = str(app.db.p_user_db.fetchall())[0:-3][2:];
