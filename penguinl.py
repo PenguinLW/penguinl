@@ -118,7 +118,7 @@ class App():
             app.p_bot.delete_message(query.message.chat_id, query.message.message_id);
 
     def el_minutero(app, p_bot: Bot, update: Update):
-        pass;
+        app.p_inf.create_person();
 
     def answer_user(app, p_bot: Bot, update: Update):
         req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
