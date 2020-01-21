@@ -120,7 +120,11 @@ class App():
     def cr_unplan(app, p_bot: Bot, update: Update):
         app.p_inf.crear_unplan(update.message.chat_id);
     def el_minutero(app, p_bot: Bot, update: Update):
-        app.p_inf.estab_unplan(update.message.chat_id);
+        app.send_answer(
+            update.message.chat_id,
+            app.p_inf.estab_unplan(update.message.chat_id),
+            "html"
+        );
 
     def answer_user(app, p_bot: Bot, update: Update):
         req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
