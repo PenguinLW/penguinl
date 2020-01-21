@@ -78,6 +78,7 @@ class P_Bot:
         """
             .
         """
+        tmp_string = "";
         app.db.connect_to_db();
         app.db.p_user_db.execute(
             """
@@ -104,7 +105,15 @@ class P_Bot:
             """.format(person_id, "+79140024101 перспектива 24 (вт 14:10ч.)")
         );
         app.db.commit_changes_db();
+        app.db.p_user_db.execute(
+            """
+            SELECT *
+            FROM {0:}
+            """.format(person_id)
+        );
+        tmp_string = str(app.db.p_user_db.fetchall())[0:-3][2:];
         app.db.disconnect_user_db();
+        return tmp_string;
     
     #получение основной служебной информации для функционирования приложения
     def get_admin_id(app):
