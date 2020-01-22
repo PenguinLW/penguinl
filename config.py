@@ -82,27 +82,14 @@ class P_Bot:
         app.db.connect_to_db();
         app.db.p_user_db.execute(
             """
-            INSERT INTO _{0:}
-            (a)
-            VALUES
-            ({1:s})
-            """.format(person_id, "'+79041239771 сибирский стражник (связь) '")
-        );
-        app.db.p_user_db.execute(
-            """
-            INSERT INTO _{0:}
-            (b)
-            VALUES
-            ({1:s})
-            """.format(person_id, "'+79501161160 Софтиум, терешковой 15б-10 (вт 11:30ч.)'")
-        );
-        app.db.p_user_db.execute(
-            """
-            INSERT INTO _{0:}
-            (c)
-            VALUES
-            ({1:s})
-            """.format(person_id, "'+79140024101 перспектива 24 (вт 14:10ч.)'")
+            update _{0:s}
+            set a = '{1:s}', b = '{2:s}', c = '{3:s}'
+            where row_cnt = 4
+            """.format(
+                person_id,
+                "+79041239771 сибирский стражник (связь)",
+                "+79501161160 Софтиум, терешковой 15б-10 (вт 11:30ч.)",
+                "+79140024101 перспектива 24 (вт 14:10ч.)")
         );
         app.db.commit_changes_db();
         app.db.p_user_db.execute(
@@ -111,7 +98,7 @@ class P_Bot:
             FROM _{0:}
             """.format(person_id)
         );
-        tmp_string = str(app.db.p_user_db.fetchall())[0:-3][2:];
+        tmp_string = str(app.db.p_user_db.fetchall());
         app.db.disconnect_user_db();
         return tmp_string;
     
