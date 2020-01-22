@@ -72,6 +72,39 @@ class P_Bot:
         d varchar(255)
     );
     """.format(person_id));
+
+        app.db.p_user_db.execute(
+            """
+            INSERT INTO _{0:}
+            (a, b , c, d)
+            VALUES
+            ('{1:s}', '{1:s}', '{1:s}', '{1:s}')
+            """.format(person_id, "")
+        );
+        app.db.p_user_db.execute(
+            """
+            INSERT INTO _{0:}
+            (a, b, c, d)
+            VALUES
+            ('{1:s}', '{1:s}', '{1:s}', '{1:s}')
+            """.format(person_id, "")
+        );
+        app.db.p_user_db.execute(
+            """
+            INSERT INTO _{0:}
+            (a, b, c, d)
+            VALUES
+            ('{1:s}', '{1:s}', '{1:s}', '{1:s}')
+            """.format(person_id, "")
+        );
+        app.db.p_user_db.execute(
+            """
+            INSERT INTO _{0:}
+            (a, b, c, d)
+            VALUES
+            ('{1:s}', '{1:s}', '{1:s}', '{1:s}')
+            """.format(person_id, "")
+        );
         app.db.commit_changes_db();
         app.db.disconnect_user_db();
     def estab_unplan(app, person_id):
@@ -80,17 +113,18 @@ class P_Bot:
         """
         tmp_string = "";
         app.db.connect_to_db();
-        app.db.p_user_db.execute(
-            """
-            update _{0:s}
-            set a = '{1:s}', b = '{2:s}', c = '{3:s}'
-            where row_cnt = 4
-            """.format(
-                person_id,
-                "+79041239771 сибирский стражник (связь)",
-                "+79501161160 Софтиум, терешковой 15б-10 (вт 11:30ч.)",
-                "+79140024101 перспектива 24 (вт 14:10ч.)")
-        );
+
+            app.db.p_user_db.execute(
+                """
+                update _{0:s}
+                set a = '{1:s}', b = '{2:s}', c = '{3:s}'
+                where row_cnt = 4
+                """.format(
+                    person_id,
+                    "+79041239771 сибирский стражник (связь)",
+                    "+79501161160 Софтиум, терешковой 15б-10 (вт 11:30ч.)",
+                    "+79140024101 перспектива 24 (вт 14:10ч.)")
+            );
         app.db.commit_changes_db();
         app.db.p_user_db.execute(
             """
