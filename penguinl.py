@@ -1,5 +1,3 @@
-import sys
-
 from telegram import Bot;
 from telegram import Update;
 from telegram import KeyboardButton;
@@ -125,8 +123,15 @@ class App():
     def el_minutero(app, p_bot: Bot, update: Update):
         tmp = update.message.text.replace("/el_minutero ", "").split(" ");
         app.send_answer(
+                update.message.chat_id,
+                app.p_inf.estab_unplan(update.message.chat_id, tmp),
+                "html"
+            );
+    def show_all_in(app, p_bot: Bot, update: Update):
+        tmp = update.message.text.replace("/show_all_in ", "").split(" ");
+        app.send_answer(
             update.message.chat_id,
-            app.p_inf.estab_unplan(update.message.chat_id, tmp),
+            app.p_inf.get_from(update.message.chat_id, tmp),
             "html"
         );
 
@@ -156,7 +161,13 @@ class App():
             chat_id = chat_id,
             text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
             parse_mode = p_m,
-            reply_markup = ReplyKeyboardMarkup([[KeyboardButton("/el_minutero"), KeyboardButton("--")]], resize_keyboard=True, one_time_keyboard=True, selective=True)
+            reply_markup = ReplyKeyboardMarkup([
+                list(
+                    (KeyboardButton("/show_all_in {0:s}".format(q)) for q in app.p_inf.l_event)
+                    if len(app.p_inf.l_event) != 0
+                    else [(KeyboardButton("Эй!"))]
+            )],
+            resize_keyboard=True, one_time_keyboard=True, selective=True)
         );
 
     def __init__(app):
@@ -176,6 +187,7 @@ class App():
         app.commande_handler.append(CommandHandler("la_calculadora", app.la_calculadora));
         app.commande_handler.append(CommandHandler("crearplan", app.cr_unplan));
         app.commande_handler.append(CommandHandler("el_minutero", app.el_minutero));
+        app.commande_handler.append(CommandHandler("show_all_in", app.show_all_in));
         app.commande_handler.append(MessageHandler(Filters.text, app.answer_user));
         app.commande_handler.append(CallbackQueryHandler(app.calc_b));
         

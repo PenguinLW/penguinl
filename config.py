@@ -13,6 +13,7 @@ class P_Bot:
         app.p_base_url = "https://telegg.ru/orig/bot";
         app.dtoken = "7ac8e3b62b22437794a2a4755ada1990";
         app.alph = "abcdefghijklmnopqrstuvwxyz";
+        app.l_event = {};
 
         app.db = P_db();
         app.db.connect_to_db();
@@ -67,26 +68,30 @@ class P_Bot:
         tstr = "";
         i = 0;
         for q in tmp:
-            tstr += "{0:s} varchar(255),\n".format(app.alph[i]);
+            tstr += "{0:s} varchar(255), ".format(app.alph[i]);
+            app.l_event.update({q: i+1})
             i += 1;
-        tstr = tstr[0:-1];
-        app.db.p_user_db.execute("""
-        CREATE TABLE IF NOT EXISTS _{0:}(
-        row_cnt serial,
-        {1:s}
-    );
-    """.format(person_id, tstr));
-        i = 0;
-        for q in tmp:
-            app.db.p_user_db.execute(
-                """
-                INSERT INTO _{0:}
-                ({1:s})
-                VALUES
-                ('{2:s}')
-                """.format(person_id, app.alph[i], "")
-            );
-            i += 1;
+        tstr = tstr[0:-2];
+        try:
+            app.db.p_user_db.execute("""
+            CREATE TABLE _{0:}(
+            row_cnt serial,
+            {1:s}
+        );
+        """.format(person_id, tstr));#IF NOT EXISTS
+            i = 0;
+            for q in tmp:
+                app.db.p_user_db.execute(
+                    """
+                    INSERT INTO _{0:}
+                    ({1:s})
+                    VALUES
+                    ('{2:s}')
+                    """.format(person_id, app.alph[i], "")
+                );
+                i += 1;
+        except:
+            pass;
         app.db.commit_changes_db();
         app.db.disconnect_user_db();
     def estab_unplan(app, person_id, tmp):
@@ -97,24 +102,64 @@ class P_Bot:
         app.db.connect_to_db();
         i = 0;
         for q in range(0, len(tmp)-1):
-            app.db.p_user_db.execute(
-                """
-                update _{0:}
-                set {1:s} = '{2:s}'
-                where row_cnt = {3:s}
-                """.format(
-                    person_id,
-                    app.alph[i],
-                    tmp[q],
-                    tmp[len(tmp)-1])
-            );
-            i += 1;
+            try:
+                app.db.p_user_db.execute(
+                    """
+                    update _{0:}
+                    set {1:s} = '{2:s}'
+                    where row_cnt = {3:n}
+                    """.format(
+                        person_id,
+                        app.alph[i],
+                        tmp[q],
+                        app.l_event[tmp[len(tmp)-1]])
+                );
+                i += 1;
+            except:
+                app.db.commit_changes_db();
+                app.db.p_user_db.execute(
+                    """
+                    alter table _{0:}
+                    add column {1:s} varchar(255)
+                    """.format(
+                        person_id,
+                        app.alph[i])
+                );
+                app.db.commit_changes_db();
+                app.db.p_user_db.execute(
+                    """
+                    update _{0:}
+                    set {1:s} = '{2:s}'
+                    where row_cnt = {3:n}
+                    """.format(
+                        person_id,
+                        app.alph[i],
+                        tmp[q],
+                        app.l_event[tmp[len(tmp)-1]])
+                );
+                i += 1;
         app.db.commit_changes_db();
         app.db.p_user_db.execute(
             """
             SELECT *
             FROM _{0:}
             """.format(person_id)
+        );
+        tmp_string = str(app.db.p_user_db.fetchall());
+        app.db.disconnect_user_db();
+        return tmp_string;
+    def get_from(app, person_id, tmp):
+        """
+            .
+        """
+        tmp_string = "";
+        app.db.connect_to_db();
+        app.db.p_user_db.execute(
+            """
+            select *
+            from _{0:}
+            where row_cnt = {1:n}
+            """.format(person_id, app.l_event[tmp[len(tmp)-1]])
         );
         tmp_string = str(app.db.p_user_db.fetchall());
         app.db.disconnect_user_db();
