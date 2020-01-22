@@ -113,7 +113,6 @@ class P_Bot:
         """
         tmp_string = "";
         app.db.connect_to_db();
-
         app.db.p_user_db.execute(
             """
             update _{0:s}

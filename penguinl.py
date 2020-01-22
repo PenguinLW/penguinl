@@ -179,7 +179,8 @@ class App():
             app.updater.dispatcher.add_handler(el);
         app.app_run();
     def app_run(app):
-        if(app.f_flag):
+        if(not app.f_flag):
+            print("+");
             app.updater.start_polling();
         else:
             # add handlers
