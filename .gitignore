@@ -8,6 +8,7 @@ gitignore
 .idea/inspectionProfiles/profiles_settings.xml
 __pycache__/db.cpython-35.pyc
 __pycache__/config.cpython-35.pyc
+__pycache__/penguinl.cpython-35.pyc
 __pycache__/calculate.cpython-35.pyc
 app_run.sh
 release.sh

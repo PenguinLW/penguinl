@@ -12,6 +12,7 @@ class P_Bot:
         app.p_token = "639880775:AAFdOtEP2m_1p5ctsB_AAUgE-zb8KSKCUKg";
         app.p_base_url = "https://telegg.ru/orig/bot";
         app.dtoken = "7ac8e3b62b22437794a2a4755ada1990";
+        app.alph = "abcdefghijklmnopqrstuvwxyz";
 
         app.db = P_db();
         app.db.connect_to_db();
@@ -54,7 +55,7 @@ class P_Bot:
         );
         app.db.commit_changes_db();
         app.db.disconnect_user_db();
-    def crear_unplan(app, person_id):
+    def crear_unplan(app, person_id, tmp):
         """
             Добавление личной рабочей инф пользователя - последующая ..
             notes
@@ -63,67 +64,51 @@ class P_Bot:
             given
         """
         app.db.connect_to_db();
+        tstr = "";
+        i = 0;
+        for q in tmp:
+            tstr += "{0:s} varchar(255),\n".format(app.alph[i]);
+            i += 1;
+        tstr = tstr[0:-1];
         app.db.p_user_db.execute("""
         CREATE TABLE IF NOT EXISTS _{0:}(
         row_cnt serial,
-        a varchar(255),
-        b varchar(255),
-        c varchar(255),
-        d varchar(255)
+        {1:s}
     );
-    """.format(person_id));
-
-        app.db.p_user_db.execute(
-            """
-            INSERT INTO _{0:}
-            (a, b , c, d)
-            VALUES
-            ('{1:s}', '{1:s}', '{1:s}', '{1:s}')
-            """.format(person_id, "")
-        );
-        app.db.p_user_db.execute(
-            """
-            INSERT INTO _{0:}
-            (a, b, c, d)
-            VALUES
-            ('{1:s}', '{1:s}', '{1:s}', '{1:s}')
-            """.format(person_id, "")
-        );
-        app.db.p_user_db.execute(
-            """
-            INSERT INTO _{0:}
-            (a, b, c, d)
-            VALUES
-            ('{1:s}', '{1:s}', '{1:s}', '{1:s}')
-            """.format(person_id, "")
-        );
-        app.db.p_user_db.execute(
-            """
-            INSERT INTO _{0:}
-            (a, b, c, d)
-            VALUES
-            ('{1:s}', '{1:s}', '{1:s}', '{1:s}')
-            """.format(person_id, "")
-        );
+    """.format(person_id, tstr));
+        i = 0;
+        for q in tmp:
+            app.db.p_user_db.execute(
+                """
+                INSERT INTO _{0:}
+                ({1:s})
+                VALUES
+                ('{2:s}')
+                """.format(person_id, app.alph[i], "")
+            );
+            i += 1;
         app.db.commit_changes_db();
         app.db.disconnect_user_db();
-    def estab_unplan(app, person_id):
+    def estab_unplan(app, person_id, tmp):
         """
             .
         """
         tmp_string = "";
         app.db.connect_to_db();
-        app.db.p_user_db.execute(
-            """
-            update _{0:s}
-            set a = '{1:s}', b = '{2:s}', c = '{3:s}'
-            where row_cnt = 4
-            """.format(
-                person_id,
-                "+79041239771 сибирский стражник (связь)",
-                "+79501161160 Софтиум, терешковой 15б-10 (вт 11:30ч.)",
-                "+79140024101 перспектива 24 (вт 14:10ч.)")
-        );
+        i = 0;
+        for q in range(0, len(tmp)-1):
+            app.db.p_user_db.execute(
+                """
+                update _{0:}
+                set {1:s} = '{2:s}'
+                where row_cnt = {3:s}
+                """.format(
+                    person_id,
+                    app.alph[i],
+                    tmp[q],
+                    tmp[len(tmp)-1])
+            );
+            i += 1;
         app.db.commit_changes_db();
         app.db.p_user_db.execute(
             """

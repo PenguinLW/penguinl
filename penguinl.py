@@ -1,3 +1,5 @@
+import sys
+
 from telegram import Bot;
 from telegram import Update;
 from telegram import KeyboardButton;
@@ -118,11 +120,13 @@ class App():
             app.p_bot.delete_message(query.message.chat_id, query.message.message_id);
 
     def cr_unplan(app, p_bot: Bot, update: Update):
-        app.p_inf.crear_unplan(update.message.chat_id);
+        tmp = update.message.text.replace("/crearplan ", "").split(" ");
+        app.p_inf.crear_unplan(update.message.chat_id, tmp);
     def el_minutero(app, p_bot: Bot, update: Update):
+        tmp = update.message.text.replace("/el_minutero ", "").split(" ");
         app.send_answer(
             update.message.chat_id,
-            app.p_inf.estab_unplan(update.message.chat_id),
+            app.p_inf.estab_unplan(update.message.chat_id, tmp),
             "html"
         );
 
@@ -180,7 +184,6 @@ class App():
         app.app_run();
     def app_run(app):
         if(app.f_flag):
-            print("+");
             app.updater.start_polling();
         else:
             # add handlers
