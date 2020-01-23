@@ -128,7 +128,7 @@ class App():
                 "html"
             );
     def show_all_in(app, p_bot: Bot, update: Update):
-        tmp = update.message.text.replace("/show_all_in ", "").split(" ");
+        tmp = update.message.text.replace("/show_all_in ", "").split("\n");
         app.send_answer(
             update.message.chat_id,
             app.p_inf.get_from(update.message.chat_id, tmp),
