@@ -98,7 +98,6 @@ class P_Bot:
         """
             .
         """
-        tmp_string = "";
         app.db.connect_to_db();
         i = 0;
         for q in range(0, len(tmp)-1):
@@ -139,15 +138,7 @@ class P_Bot:
                 );
                 i += 1;
         app.db.commit_changes_db();
-        app.db.p_user_db.execute(
-            """
-            SELECT *
-            FROM _{0:}
-            """.format(person_id)
-        );
-        tmp_string = str(app.db.p_user_db.fetchall());
         app.db.disconnect_user_db();
-        return tmp_string;
     def get_from(app, person_id, tmp):
         """
             .

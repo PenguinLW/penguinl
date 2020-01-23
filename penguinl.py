@@ -120,20 +120,27 @@ class App():
     def cr_unplan(app, p_bot: Bot, update: Update):
         tmp = update.message.text.replace("/crearplan ", "").split(" ");
         app.p_inf.crear_unplan(update.message.chat_id, tmp);
+        app.p_bot.delete_message(update.message.chat_id, update.message.message_id);
     def el_minutero(app, p_bot: Bot, update: Update):
-        tmp = update.message.text.replace("/el_minutero ", "").split(" ");
-        app.send_answer(
-                update.message.chat_id,
-                app.p_inf.estab_unplan(update.message.chat_id, tmp),
-                "html"
-            );
+        tmp = update.message.text.replace("/el_minutero ", "").split("\n");
+        app.p_inf.estab_unplan(update.message.chat_id, tmp);
+        app.p_bot.delete_message(update.message.chat_id, update.message.message_id);
     def show_all_in(app, p_bot: Bot, update: Update):
-        tmp = update.message.text.replace("/show_all_in ", "").split("\n");
+        tmp = update.message.text.replace("/show_all_in ", "").split(" ");
+        try:
+            app.p_bot.delete_message(update.message.chat_id, update.message.message_id-2);
+            app.p_bot.delete_message(update.message.chat_id, update.message.message_id-1);
+        except:
+            pass;
+        app.p_bot.delete_message(update.message.chat_id, update.message.message_id);
         app.send_answer(
             update.message.chat_id,
             app.p_inf.get_from(update.message.chat_id, tmp),
             "html"
         );
+        time.sleep(25);
+        app.p_bot.delete_message(update.message.chat_id, update.message.message_id+1);
+
 
     def answer_user(app, p_bot: Bot, update: Update):
         req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
