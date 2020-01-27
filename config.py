@@ -152,7 +152,7 @@ class P_Bot:
             where row_cnt = {1:n}
             """.format(person_id, app.l_event[tmp[len(tmp)-1]])
         );
-        tmp_string = str(app.db.p_user_db.fetchall())[4:-4]\
+        tmp_string = str(app.db.p_user_db.fetchall())[3:-4]\
             .replace("None", "")\
             .replace("None, ", "")\
             .replace("'', ", "")\
