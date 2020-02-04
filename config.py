@@ -158,7 +158,7 @@ class P_Bot:
             .replace("'', ", "")\
             .replace("', '", "\n")\
             .replace("', ", "")\
-            .replace(", '", "\n");
+            .replace(", '", "\n")[1:];
         app.db.disconnect_user_db();
         return tmp_string;
     
