@@ -10,7 +10,7 @@ class P_Bot:
         """
         app.p_admin_id = "696236779";
         app.p_token = "639880775:AAFdOtEP2m_1p5ctsB_AAUgE-zb8KSKCUKg";
-        app.p_base_url = "https://telegg.ru/orig/bot";
+        app.p_base_url = "http://telegg.ru/orig/bot";
         app.dtoken = "7ac8e3b62b22437794a2a4755ada1990";
         app.alph = "abcdefghijklmnopqrstuvwxyz";
         app.l_event = {};
