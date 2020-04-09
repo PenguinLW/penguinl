@@ -53,4 +53,3 @@ class P_db:
         app.connect_to_db();
         app.init_db();
         app.disconnect_user_db();
-
