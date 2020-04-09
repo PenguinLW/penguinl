@@ -187,7 +187,7 @@ class App():
         app.updater = Updater(bot = app.p_bot);
 
         app.c = calc.Calculate();
-        app.f_flag = True;
+        app.f_flag = False;
 
         app.commande_handler.append(CommandHandler("start", app.hola_user));
         app.commande_handler.append(CommandHandler("la_comienzo", app.hola_user));
