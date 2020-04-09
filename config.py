@@ -16,9 +16,6 @@ class P_Bot:
         app.l_event = {};
 
         app.db = P_db();
-        app.db.connect_to_db();
-        app.db.init_db();
-        app.db.disconnect_user_db();
     
     #работаем с базой данных "общающихся пользователей"
     def search_person(app, person_id):
