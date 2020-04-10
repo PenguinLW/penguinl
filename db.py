@@ -26,6 +26,7 @@ class P_db:
         PersonID int
     );
     """);
+        app.commit_changes_db();
 
     def commit_changes_db(app):
         """
