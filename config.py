@@ -60,6 +60,7 @@ class P_Bot:
             cards
             meeting
             given
+            ?
         """
         app.db.connect_to_db();
         tstr = "";
@@ -71,11 +72,11 @@ class P_Bot:
         tstr = tstr[0:-2];
         try:
             app.db.p_user_db.execute("""
-            CREATE TABLE _{0:}(
-            row_cnt serial,
-            {1:s}
-        );
-        """.format(person_id, tstr));#IF NOT EXISTS
+                CREATE TABLE _{0:}(
+                    row_cnt serial,
+                    {1:s}
+                );""".format(person_id, tstr)
+            );
             i = 0;
             for q in tmp:
                 app.db.p_user_db.execute(
@@ -88,7 +89,18 @@ class P_Bot:
                 );
                 i += 1;
         except:
-            pass;
+            if(len(tmp) > int(app.db.p_user_db.execute("""
+                    select max(row_cnt)
+                        from _{0:}
+                    );""".format(person_id)))):
+                app.db.p_user_db.execute(
+                    """
+                    INSERT INTO _{0:}
+                    ({1:s})
+                    VALUES
+                    ({2:n})
+                    """.format(person_id, 'row_cnt', len(tmp))
+                );
         app.db.commit_changes_db();
         app.db.disconnect_user_db();
     def estab_unplan(app, person_id, tmp):
