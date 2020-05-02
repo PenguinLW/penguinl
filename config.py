@@ -89,11 +89,12 @@ class P_Bot:
                 );
                 i += 1;
         except:
-            if(len(tmp) > int(app.db.p_user_db.execute("""
+            if(len(tmp) > 0):
+                print(int(app.db.p_user_db.execute("""
                     select max(row_cnt)
                     from _{0:}
                     """.format(person_id))
-            )):
+                ));
                 app.db.p_user_db.execute(
                     """
                     INSERT INTO _{0:}
