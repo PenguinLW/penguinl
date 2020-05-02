@@ -69,26 +69,26 @@ class P_Bot:
             app.l_event.update({q: i+1})
             i += 1;
         tstr = tstr[0:-2];
-        try:
-            app.db.p_user_db.execute("""
-            CREATE TABLE _{0:}(
+        # try:
+        app.db.p_user_db.execute("""
+            CREATE TABLE IF NOT EXISTS _{0:}(
             row_cnt serial,
             {1:s}
         );
-        """.format(person_id, tstr));#IF NOT EXISTS
-            i = 0;
-            for q in tmp:
-                app.db.p_user_db.execute(
-                    """
-                    INSERT INTO _{0:}
-                    ({1:s})
-                    VALUES
-                    ('{2:s}')
-                    """.format(person_id, app.alph[i], "")
-                );
-                i += 1;
-        except:
-            pass;
+        """.format(person_id, tstr));
+        i = 0;
+        for q in tmp:
+            app.db.p_user_db.execute(
+                """
+                INSERT INTO _{0:}
+                ({1:s})
+                VALUES
+                ('{2:s}')
+                """.format(person_id, app.alph[i], "")
+            );
+            i += 1;
+        # except:
+        #     pass;
         app.db.commit_changes_db();
         app.db.disconnect_user_db();
     def estab_unplan(app, person_id, tmp):
