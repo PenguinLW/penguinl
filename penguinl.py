@@ -1,10 +1,11 @@
-from telegram import Bot;
+# from telegram import Bot;
 from telegram import Update;
 from telegram import KeyboardButton;
 from telegram import ReplyKeyboardMarkup;
 from telegram import InlineKeyboardButton;
 from telegram import InlineKeyboardMarkup;
 from telegram.ext import Updater;
+from telegram.ext import CallbackContext;
 from telegram.ext import CommandHandler;
 from telegram.ext import MessageHandler;
 from telegram.ext import CallbackQueryHandler;
@@ -17,12 +18,12 @@ import os, apiai, json, time;
 from config import P_Bot;
 
 class App():
-    def hola_user(app, p_bot: Bot, update: Update):
-        content = "";
-        if(app.p_inf.search_person(update.message.chat_id) == 0):
+    def hola_user(app, update: Update, context: CallbackContext):
+        if app.p_inf.search_person(update.message.chat_id) == 0:
             app.p_inf.add_person(update.message.chat_id);
             content = "Приветствую!!";
             app.send_answer(
+                context,
                 app.p_inf.get_admin_id(),
                 "кто-то пришёл: {0:n} сюда: {1:n}".format(update.message.chat_id, update.message.chat_id),
                 "markdown"
@@ -30,15 +31,16 @@ class App():
         else:
             content = "Мы уже с Вами знакомы, день добрый!!";
         app.send_answer(
+            context,
             update.message.chat_id,
             content,
             "markdown"
         );
 
-    def help_user(app, p_bot: Bot, update: Update):
+    def help_user(app, update: Update, context: CallbackContext):
         pass;
 
-    def la_calculadora(app, p_bot: Bot, update: Update):
+    def la_calculadora(app, update: Update, context: CallbackContext):
         c = app.c;
         reply_markup = InlineKeyboardMarkup(
             [[InlineKeyboardButton("1", callback_data=1),
@@ -64,19 +66,19 @@ class App():
         );
 
         update.message.reply_text('Please choose:', reply_markup=reply_markup);
-        app.p_bot.delete_message(update.message.chat_id, update.message.message_id);
-    def calc_b(app, p_bot: Bot, update: Update):
+        context.bot.delete_message(update.message.chat_id, update.message.message_id);
+    def calc_b(app, update: Update, context: CallbackContext):
         c = app.c;
         query = update.callback_query;
         try:
-            if(query.data.find(".") != -1):
+            if query.data.find(".") != -1:
                 app.f_flag = True;
-                if(len(c.num) == 1):
+                if len(c.num) == 1:
                     c.num[0] = float(c.num[0]);
-                elif(len(c.num) == 3):
+                elif len(c.num) == 3:
                     c.num[2] = float(c.num[2]);
-            elif(app.f_flag):
-                if(len(c.num) == 1):
+            elif app.f_flag:
+                if len(c.num) == 1:
                     c.num[0] = float(
                         str(c.num[0]).replace(".0", ".") + query.data
                         if
@@ -84,7 +86,7 @@ class App():
                         else
                             str(c.num[0])+ query.data
                     );
-                elif(len(c.num) == 3):
+                elif len(c.num) == 3:
                     c.num[2] = float(
                         str(c.num[2]).replace(".0", ".") + query.data
                         if
@@ -94,17 +96,16 @@ class App():
                     );
             else:
                 c.num.append(int(query.data));
-                if(len(c.num) == 2):
+                if len(c.num) == 2:
                     c.num[0] = int(str(c.num[0]) + query.data);
                     c.num.remove(c.num[1]);
-                elif(len(c.num) > 3):
+                elif len(c.num) > 3:
                     c.num[2] = int(str(c.num[2]) + query.data);
                     c.num.remove(c.num[3]);
         except:
             app.f_flag = False;
             c.num.append(query.data);
-
-        if(query.data == "="):
+        if query.data == '=':
             res = 0;
             a = c.num[0];
             act = c.num[1];
@@ -115,34 +116,35 @@ class App():
             query.edit_message_text(res);
             time.sleep(25);
             app.f_flag = False;
-            app.p_bot.delete_message(query.message.chat_id, query.message.message_id);
+            context.bot.delete_message(query.message.chat_id, query.message.message_id);
 
-    def cr_unplan(app, p_bot: Bot, update: Update):
+    def cr_unplan(app, update: Update, context: CallbackContext):
         tmp = update.message.text.replace("/crearplan ", "").split(" ");
         app.p_inf.crear_unplan(update.message.chat_id, tmp);
-        app.p_bot.delete_message(update.message.chat_id, update.message.message_id);
-    def el_minutero(app, p_bot: Bot, update: Update):
+        context.bot.delete_message(update.message.chat_id, update.message.message_id);
+    def el_minutero(app, update: Update, context: CallbackContext):
         tmp = update.message.text.replace("/el_minutero ", "").split("\n");
         app.p_inf.estab_unplan(update.message.chat_id, tmp);
-        app.p_bot.delete_message(update.message.chat_id, update.message.message_id);
-    def show_all_in(app, p_bot: Bot, update: Update):
+        context.bot.delete_message(update.message.chat_id, update.message.message_id);
+    def show_all_in(app, update: Update, context: CallbackContext):
         tmp = update.message.text.replace("/show_all_in ", "").split(" ");
         try:
-            app.p_bot.delete_message(update.message.chat_id, update.message.message_id-2);
-            app.p_bot.delete_message(update.message.chat_id, update.message.message_id-1);
+            context.bot.delete_message(update.message.chat_id, update.message.message_id-2);
+            context.bot.delete_message(update.message.chat_id, update.message.message_id-1);
         except:
             pass;
-        app.p_bot.delete_message(update.message.chat_id, update.message.message_id);
+        context.bot.delete_message(update.message.chat_id, update.message.message_id);
         app.send_answer(
+            context,
             update.message.chat_id,
             app.p_inf.get_from(update.message.chat_id, tmp),
             "html"
         );
         time.sleep(25);
-        app.p_bot.delete_message(update.message.chat_id, update.message.message_id+1);
+        context.bot.delete_message(update.message.chat_id, update.message.message_id+1);
 
 
-    def answer_user(app, p_bot: Bot, update: Update):
+    def answer_user(app, update: Update, context: CallbackContext):
         req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
         req.lang = "ru";
         req.session_id = "PenguinL";
@@ -152,19 +154,21 @@ class App():
         res = res["result"]["fulfillment"]["speech"];
         if res:
             app.send_answer(
+                context,
                 update.message.chat_id,
                 res,
                 "html"
             );
         else:
             app.send_answer(
+                context,
                 update.message.chat_id,
                 "Рад Вашему слову.",
                 "html"
             );
 
-    def send_answer(app, chat_id, text, p_m):
-        app.p_bot.send_message(
+    def send_answer(app, context, chat_id, text, p_m):
+        context.bot.send_message(
             chat_id = chat_id,
             text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
             parse_mode = p_m,
@@ -180,11 +184,15 @@ class App():
     def __init__(app):
         app.commande_handler = [];
         app.p_inf = P_Bot();
-        app.p_bot = Bot(
+        # app.p_bot = Bot(
+        #     token = app.p_inf.get_token(),
+        #     base_url = app.p_inf.get_base_url()
+        # );
+        app.updater = Updater(
             token = app.p_inf.get_token(),
-            base_url = app.p_inf.get_base_url()
+            base_url = app.p_inf.get_base_url(),
+            use_context = True
         );
-        app.updater = Updater(bot = app.p_bot, use_context=True);
 
         app.c = calc.Calculate();
         app.f_flag = False;
