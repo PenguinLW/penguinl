@@ -184,7 +184,7 @@ class App():
             token = app.p_inf.get_token(),
             base_url = app.p_inf.get_base_url()
         );
-        app.updater = Updater(bot = app.p_bot);
+        app.updater = Updater(bot = app.p_bot, use_context=True);
 
         app.c = calc.Calculate();
         app.f_flag = False;
