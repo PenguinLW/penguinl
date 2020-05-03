@@ -90,12 +90,11 @@ class P_Bot:
                 i += 1;
         except:
             app.db.commit_changes_db();
-            q = app.db.p_user_db.execute("""
+            app.db.p_user_db.execute("""
                     select max(row_cnt)
                     from _{0:}
                     """.format(person_id));
-            print(q);
-            if(len(tmp) > int(q)):
+            if(len(tmp) > int(app.db.p_user_db.fetchall()[0][0])):
                 app.db.p_user_db.execute(
                     """
                     INSERT INTO _{0:}
