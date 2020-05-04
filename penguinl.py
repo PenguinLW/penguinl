@@ -127,7 +127,7 @@ class App():
         app.p_inf.estab_unplan(update.message.chat_id, tmp);
         context.bot.delete_message(update.message.chat_id, update.message.message_id);
     def show_all_in(app, update: Update, context: CallbackContext):
-        tmp = update.message.text.replace("/show_all_in ", "").split(" ");
+        tmp = update.message.text.replace("/show_all_in ", "");
         try:
             context.bot.delete_message(update.message.chat_id, update.message.message_id-2);
             context.bot.delete_message(update.message.chat_id, update.message.message_id-1);
@@ -168,14 +168,15 @@ class App():
             );
 
     def send_answer(app, context, chat_id, text, p_m):
+        l_event = app.p_inf.sub_show_plan(chat_id);
         context.bot.send_message(
             chat_id = chat_id,
             text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
             parse_mode = p_m,
             reply_markup = ReplyKeyboardMarkup([
                 list(
-                    (KeyboardButton("/show_all_in {0:s}".format(q)) for q in app.p_inf.l_event)
-                    if len(app.p_inf.l_event) != 0
+                    (KeyboardButton("/show_all_in {0:s}".format(q)) for q in l_event)
+                    if len(l_event) != 0
                     else [(KeyboardButton("Эй!"))]
             )],
             resize_keyboard=True, one_time_keyboard=True, selective=True)
@@ -195,7 +196,7 @@ class App():
         );
 
         app.c = calc.Calculate();
-        app.f_flag = False;
+        app.f_flag = not False;
 
         app.commande_handler.append(CommandHandler("start", app.hola_user));
         app.commande_handler.append(CommandHandler("la_comienzo", app.hola_user));

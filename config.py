@@ -12,8 +12,8 @@ class P_Bot:
         app.p_token = "639880775:AAFdOtEP2m_1p5ctsB_AAUgE-zb8KSKCUKg";
         app.p_base_url = "http://telegg.ru/orig/bot";
         app.dtoken = "7ac8e3b62b22437794a2a4755ada1990";
-        app.alph = "abcdefghijklmnopqrstuvwxyz";
-        app.l_event = {};
+        # app.alph = "abcdefghijklmnopqrstuvwxyz";
+        # app.l_event = {};
 
         app.db = P_db();
     
@@ -23,19 +23,17 @@ class P_Bot:
             Поиск пользователя - применяется для исключения
             добавления пользователей, уже "начавших общение".
         """
-        
-        tmp_string = "";
         app.db.connect_to_db();
         app.db.p_user_db.execute(
             """
-            SELECT COUNT(*)
-            FROM Persons
-            WHERE PersonID={0:n};
+            select count(*)
+            from Persons
+            where PersonID={0:n};
             """.format(person_id)
         );
-        tmp_string = str(app.db.p_user_db.fetchall())[0:-3][2:];
+        tmp_string = int(app.db.p_user_db.fetchall()[0][0]);
         app.db.disconnect_user_db();
-        return int(tmp_string);
+        return tmp_string;
     def add_person(app, person_id):
         """
             Добавление пользователя - сохранение основной
@@ -45,11 +43,11 @@ class P_Bot:
         app.db.connect_to_db();
         app.db.p_user_db.execute(
             """
-            INSERT INTO Persons
-            (PersonID)
-            VALUES
-            ({0:n})
-            """.format(person_id)
+            insert into Persons
+            (PersonID, reg_date)
+            values
+            ({0:n}, '{1:s}')
+            """.format(person_id, app.sub_now())
         );
         app.db.commit_changes_db();
         app.db.disconnect_user_db();
@@ -64,91 +62,66 @@ class P_Bot:
         """
         app.db.connect_to_db();
         tstr = "";
-        i = 0;
-        for q in tmp:
-            tstr += "{0:s} varchar(255), ".format(app.alph[i]);
-            app.l_event.update({q: i+1})
-            i += 1;
-        tstr = tstr[0:-2];
-        try:
-            app.db.p_user_db.execute("""
-                CREATE TABLE _{0:}(
-                    row_cnt serial,
-                    {1:s}
-                );""".format(person_id, tstr)
-            );
-            i = 0;
-            for q in tmp:
-                app.db.p_user_db.execute(
-                    """
-                    INSERT INTO _{0:}
-                    ({1:s})
-                    VALUES
-                    ('{2:s}')
-                    """.format(person_id, app.alph[i], "")
-                );
-                i += 1;
-        except:
-            app.db.commit_changes_db();
-            app.db.p_user_db.execute("""
-                    select max(row_cnt)
-                    from _{0:}
-                    """.format(person_id));
-            if(len(tmp) > int(app.db.p_user_db.fetchall()[0][0])):
-                app.db.p_user_db.execute(
-                    """
-                    INSERT INTO _{0:}
-                    ({1:s})
-                    VALUES
-                    ({2:n})
-                    """.format(person_id, 'row_cnt', len(tmp))
-                );
+        # i = 0;
+        # for q in tmp:
+        #     tstr += "{0:s} character(255), \n".format(q);
+        #     tstr += "{0:s} varchar(255), ".format(app.alph[i]);
+        #     app.l_event.update({q: i+1})
+        #     i += 1;
+        # tstr = tstr[0:-2];
+        app.db.p_user_db.execute("""
+            create table if not exists _{0:n}(
+                name_of_plan character(255),
+                alias_of_plan character(255),
+                reg_date timestamp
+            );""".format(person_id)
+        );
         app.db.commit_changes_db();
+        for q in tmp:
+            app.db.p_user_db.execute("""
+                select count(*)
+                from _{0:n}
+                where name_of_plan = '{1:s}'
+                """.format(person_id, q)
+            );
+            tq = int(app.db.p_user_db.fetchall()[0][0]);
+            if tq <= 0:
+                app.db.p_user_db.execute("""
+                    insert into _{0:n}
+                        (name_of_plan, alias_of_plan, reg_date)
+                        values
+                        ({1:s}, _{1:s}_{0:n}, '{2:s}')
+                    """.format(person_id, q, app.sub_now())
+                );
+                app.db.commit_changes_db();
+                app.sub_create_plan(person_id, q);
         app.db.disconnect_user_db();
     def estab_unplan(app, person_id, tmp):
         """
             .
         """
         app.db.connect_to_db();
-        i = 0;
-        for q in range(0, len(tmp)-1):
-            try:
-                app.db.p_user_db.execute(
-                    """
-                    update _{0:}
-                    set {1:s} = '{2:s}'
-                    where row_cnt = {3:n}
-                    """.format(
-                        person_id,
-                        app.alph[i],
-                        tmp[q],
-                        app.l_event[tmp[len(tmp)-1]])
-                );
-                i += 1;
-            except:
-                app.db.commit_changes_db();
-                app.db.p_user_db.execute(
-                    """
-                    alter table _{0:}
-                    add column {1:s} varchar(255)
-                    """.format(
-                        person_id,
-                        app.alph[i])
-                );
-                app.db.commit_changes_db();
-                app.db.p_user_db.execute(
-                    """
-                    update _{0:}
-                    set {1:s} = '{2:s}'
-                    where row_cnt = {3:n}
-                    """.format(
-                        person_id,
-                        app.alph[i],
-                        tmp[q],
-                        app.l_event[tmp[len(tmp)-1]])
-                );
-                i += 1;
+        app.db.p_user_db.execute(
+            """
+            drop table _{1:s}_{0:n};
+            """.format(person_id, tmp[len(tmp)-1])
+        );
         app.db.commit_changes_db();
+        app.sub_create_plan(person_id, tmp[len(tmp)-1]);
+        for q in range(0, len(tmp)-1):
+            app.db.p_user_db.execute(
+                """
+                insert into _{1:s}_{0:n}
+                (content, reg_date)
+                values
+                ({2:s}, '{3:s}')
+                """.format(
+                    person_id,
+                    tmp[len(tmp)-1],
+                    tmp[q],
+                    app.sub_now()
+            ));
+            app.db.commit_changes_db();
         app.db.disconnect_user_db();
     def get_from(app, person_id, tmp):
         """
@@ -159,20 +132,50 @@ class P_Bot:
         app.db.p_user_db.execute(
             """
             select *
-            from _{0:}
-            where row_cnt = {1:n}
-            """.format(person_id, app.l_event[tmp[len(tmp)-1]])
+            from _{1:s}_{0:n}
+            """.format(person_id, tmp)
         );
-        tmp_string = str(app.db.p_user_db.fetchall())[3:-4]\
-            .replace("None", "")\
-            .replace("None, ", "")\
-            .replace("'', ", "")\
-            .replace("', '", "\n")\
-            .replace("', ", "")\
-            .replace(", '", "\n")[1:];
+        # tmp_string = str(app.db.p_user_db.fetchall())[3:-4]\
+        #     .replace("None", "")\
+        #     .replace("None, ", "")\
+        #     .replace("'', ", "")\
+        #     .replace("', '", "\n")\
+        #     .replace("', ", "")\
+        #     .replace(", '", "\n")[1:];
+        for c in app.db.p_user_db.fetchall():
+            tmp_string += "{0:s}\n".format(c[1]);
         app.db.disconnect_user_db();
         return tmp_string;
-    
+    #
+    def sub_now(app):
+        from datetime import datetime as now;
+        nn = str(now.now());#.replace(":", "-");
+        return nn;#[:nn.find(".")];
+    #
+    def sub_show_plan(app, person_id):
+        """
+            .
+        """
+        app.db.p_user_db.execute("""
+            select name_of_plan
+            from _{0:n}
+            """.format(person_id)
+        );
+        return list(app.db.p_user_db.fetchall());
+    #
+    def sub_create_plan(app, person_id, q):
+        """
+            .
+        """
+        app.db.p_user_db.execute(
+            """
+            create table if not exists _{1:s}_{0:n}(
+                row_cnt serial,
+                content text,
+                reg_date timestamp
+            );""".format(person_id, q)
+        );
+        app.db.commit_changes_db();
     #получение основной служебной информации для функционирования приложения
     def get_admin_id(app):
         """

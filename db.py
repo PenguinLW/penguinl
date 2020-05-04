@@ -22,10 +22,11 @@ class P_db:
             пользователях" при её отстутствии.
         """
         app.p_user_db.execute("""
-        CREATE TABLE IF NOT EXISTS Persons(
-        PersonID int
-    );
-    """);
+            create table if not exists Persons(
+                PersonID integer,
+                reg_date timestamp
+            );"""
+        );
         app.commit_changes_db();
 
     def commit_changes_db(app):
