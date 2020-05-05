@@ -1,5 +1,4 @@
 .gitignore
-gitignore
 .idea/vcs.xml
 .idea/misc.xml
 .idea/modules.xml
@@ -12,6 +11,3 @@ __pycache__/penguinl.cpython-35.pyc
 __pycache__/calculate.cpython-35.pyc
 app_run.sh
 release.sh
-get_key.sh
-private.key
-cert.pem
