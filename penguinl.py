@@ -1,4 +1,3 @@
-# from telegram import Bot;
 from telegram import Update;
 from telegram import KeyboardButton;
 from telegram import ReplyKeyboardMarkup;
@@ -23,6 +22,7 @@ class App():
             app.p_inf.add_person(update.message.chat_id);
             content = "Приветствую!!";
             app.send_answer(
+                update,
                 context,
                 app.p_inf.get_admin_id(),
                 "кто-то пришёл: {0:n} сюда: {1:n}".format(update.message.chat_id, update.message.chat_id),
@@ -30,16 +30,18 @@ class App():
             );
         else:
             content = "Мы уже с Вами знакомы, день добрый!!";
+        context.bot.delete_message(update.message.chat_id, update.message.message_id);
         app.send_answer(
+            update,
             context,
             update.message.chat_id,
             content,
             "markdown"
         );
-
+    #
     def help_user(app, update: Update, context: CallbackContext):
         pass;
-
+    #
     def la_calculadora(app, update: Update, context: CallbackContext):
         c = app.c;
         reply_markup = InlineKeyboardMarkup(
@@ -117,7 +119,7 @@ class App():
             time.sleep(25);
             app.f_flag = False;
             context.bot.delete_message(query.message.chat_id, query.message.message_id);
-
+    #
     def cr_unplan(app, update: Update, context: CallbackContext):
         tmp = update.message.text.replace("/crearplan ", "").split(" ");
         app.p_inf.crear_unplan(update.message.chat_id, tmp);
@@ -135,6 +137,7 @@ class App():
             pass;
         context.bot.delete_message(update.message.chat_id, update.message.message_id);
         app.send_answer(
+            update,
             context,
             update.message.chat_id,
             app.p_inf.get_from(update.message.chat_id, tmp),
@@ -142,8 +145,7 @@ class App():
         );
         time.sleep(25);
         context.bot.delete_message(update.message.chat_id, update.message.message_id+1);
-
-
+    #
     def answer_user(app, update: Update, context: CallbackContext):
         req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
         req.lang = "ru";
@@ -154,6 +156,7 @@ class App():
         res = res["result"]["fulfillment"]["speech"];
         if res:
             app.send_answer(
+                update,
                 context,
                 update.message.chat_id,
                 res,
@@ -161,34 +164,44 @@ class App():
             );
         else:
             app.send_answer(
+                update,
                 context,
                 update.message.chat_id,
                 "Рад Вашему слову.",
                 "html"
             );
-
-    def send_answer(app, context, chat_id, text, p_m):
-        l_event = app.p_inf.sub_show_plan(chat_id);
-        context.bot.send_message(
-            chat_id = chat_id,
-            text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
-            parse_mode = p_m,
-            reply_markup = ReplyKeyboardMarkup([
-                list(
-                    (KeyboardButton("/show_all_in {0:s}".format(q)) for q in l_event)
-                    if len(l_event) != 0
-                    else [(KeyboardButton("Эй!"))]
-            )],
-            resize_keyboard=True, one_time_keyboard=True, selective=True)
-        );
-
+    #
+    def send_answer(app, update, context, chat_id, text, p_m):
+        if app.p_inf.search_person(update.message.chat_id) != 0:
+            l_event = app.p_inf.sub_show_plan(chat_id);
+            context.bot.send_message(
+                chat_id = chat_id,
+                text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
+                parse_mode = p_m,
+                reply_markup = ReplyKeyboardMarkup([
+                    list(
+                        (KeyboardButton("/show_all_in {0:s}".format(q)) for q in l_event)
+                        if len(l_event) != 0
+                        else [(KeyboardButton("Эй!"))]
+                )],
+                resize_keyboard=True, one_time_keyboard=True, selective=True)
+            );
+        else:
+            context.bot.delete_message(update.message.chat_id, update.message.message_id);
+            text = "Вы не зарегистрированы в системе."+\
+                   "Используйте /start для того, чтобы начать наше продуктивное общение.";
+            p_m = "html"
+            context.bot.send_message(
+                chat_id = chat_id,
+                text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
+                parse_mode = p_m
+            );
+            time.sleep(25);
+            context.bot.delete_message(update.message.chat_id, update.message.message_id+1);
+    #
     def __init__(app):
         app.commande_handler = [];
         app.p_inf = P_Bot();
-        # app.p_bot = Bot(
-        #     token = app.p_inf.get_token(),
-        #     base_url = app.p_inf.get_base_url()
-        # );
         app.updater = Updater(
             token = app.p_inf.get_token(),
             base_url = app.p_inf.get_base_url(),
@@ -196,7 +209,7 @@ class App():
         );
 
         app.c = calc.Calculate();
-        app.f_flag = not False;
+        app.f_flag = False;
 
         app.commande_handler.append(CommandHandler("start", app.hola_user));
         app.commande_handler.append(CommandHandler("la_comienzo", app.hola_user));
@@ -211,7 +224,7 @@ class App():
             app.updater.dispatcher.add_handler(el);
         app.app_run();
     def app_run(app):
-        if(app.f_flag):
+        if app.f_flag:
             app.updater.start_polling();
         else:
             # add handlers
@@ -223,5 +236,5 @@ class App():
             app.updater.bot.set_webhook("https://penguinl.herokuapp.com/" + app.p_inf.get_token());
 
         app.updater.idle();
-if(__name__ == "__main__"):
+if __name__ == "__main__":
     App();
