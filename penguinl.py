@@ -235,6 +235,6 @@ class App():
             );
             app.updater.bot.set_webhook("https://penguinl.herokuapp.com/" + app.p_inf.get_token());
 
-        app.updater.idle();
+        #app.updater.idle();
 if __name__ == "__main__":
     App();
