@@ -231,9 +231,10 @@ class App():
             app.updater.start_webhook(
                 listen = "0.0.0.0",
                 port = int(os.environ.get('PORT', '8443')),
-                url_path = app.p_inf.get_token()
+                webhook_url = "https://penguinl.herokuapp.com/" + app.p_inf.get_token()
+                #url_path = app.p_inf.get_token()
             );
-            app.updater.bot.set_webhook("https://penguinl.herokuapp.com/" + app.p_inf.get_token());
+            #app.updater.bot.set_webhook("https://penguinl.herokuapp.com/" + app.p_inf.get_token());
 
         app.updater.idle();
 if __name__ == "__main__":
