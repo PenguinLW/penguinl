@@ -9,7 +9,7 @@ class P_Bot:
             бота.
         """
         app.p_admin_id = "696236779";
-        app.p_token = "639880775:AAFdOtEP2m_1p5ctsB_AAUgE-zb8KSKCUKg";
+        app.p_token = "639880775:AAEE5EDh34EBVSpAzHTAF9byK-0lA4Eg0jQ";
         app.p_base_url = "http://telegg.ru/orig/bot";
         app.dtoken = "7ac8e3b62b22437794a2a4755ada1990";
 
