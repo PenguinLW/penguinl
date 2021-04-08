@@ -209,7 +209,7 @@ class App():
         );
 
         app.c = calc.Calculate();
-        app.f_flag = False;
+        app.f_flag = True;
 
         app.commande_handler.append(CommandHandler("start", app.hola_user));
         app.commande_handler.append(CommandHandler("la_comienzo", app.hola_user));
@@ -235,6 +235,6 @@ class App():
             );
             app.updater.bot.set_webhook("https://penguinl.herokuapp.com/" + app.p_inf.get_token());
 
-        #app.updater.idle();
+        app.updater.idle();
 if __name__ == "__main__":
     App();
