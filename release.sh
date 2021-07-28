@@ -1,3 +1,4 @@
+#in venv
 #pip install -r req.txt
 pip freeze > req.txt
 #git clone -o penguinl https://github.com/Kovalsky95/penguinl.git
