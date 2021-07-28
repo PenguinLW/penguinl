@@ -1,3 +1,5 @@
+#pip install -r req.txt
+pip freeze > req.txt
 #git clone -o penguinl https://github.com/Kovalsky95/penguinl.git
 #git config --global user.email "diana1997525@gmail.com"
 #git config --global user.name "Kovalsky95"
