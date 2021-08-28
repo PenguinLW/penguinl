@@ -1,4 +1,5 @@
 #in venv
+. venv/bin/activate
 #pip install -r req.txt
 pip freeze > req.txt
 #git clone -o penguinl https://github.com/Kovalsky95/penguinl.git
@@ -12,3 +13,4 @@ git pull --all
 git add .
 git commit -m PenguinL
 git push --set-upstream penguinl master
+#deactivate
