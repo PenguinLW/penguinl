@@ -24,7 +24,8 @@ class P_db:
         app.p_user_db.execute("""
             create table if not exists Persons(
                 PersonID integer,
-                reg_date timestamp
+                reg_date timestamp,
+                now_date timestamp
             );"""
         );
         app.commit_changes_db();

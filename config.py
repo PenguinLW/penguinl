@@ -47,10 +47,10 @@ class P_Bot:
             app.db.p_user_db.execute(
                 """
                 insert into Persons
-                (PersonID, reg_date)
+                (PersonID, reg_date, now_date)
                 values
-                ({0:n}, '{1:s}')
-                """.format(person_id, app.sub_now())
+                ({0:n}, '{1:s}', {2:s})
+                """.format(person_id, app.sub_now(), app.sub_now())
             );
             app.db.commit_changes_db();
             app.db.disconnect_user_db();
