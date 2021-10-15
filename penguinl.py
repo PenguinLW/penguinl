@@ -296,7 +296,7 @@ class App():
             context.bot.send_document(
                 chat_id = chat_id,
                 timeout = 25,
-                video = open(doc, 'rb'),
+                document = open(doc, 'rb'),
             );
             if os.path.exists(doc):
                 os.remove(doc);
