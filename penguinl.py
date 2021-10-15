@@ -146,6 +146,8 @@ class App():
         context.bot.delete_message(update.message.chat_id, update.message.message_id+1);
     def yt_down(app, update: Update, context: CallbackContext):
         link = update.message.text.replace("/yt_down ", "");
+        qlt =  True if link.find('qlt') != -1 else False;
+        link = link[:len(link)-4]if link.find('qlt') != -1 else link;
         
         from pytube import YouTube;
         #YouTube(tmp).streams.first().download();
@@ -169,12 +171,12 @@ class App():
         except:
             pass;
         
-        try:
+        if not qlt:
             yt.streams.filter(
                 progressive=True,
                 file_extension='mp4'
                 ).order_by('resolution').desc().last().download();
-        except:
+        else:
             yt.streams.filter(
                 file_extension='mp4'
                 ).order_by('resolution').desc().last().download();
