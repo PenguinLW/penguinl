@@ -297,6 +297,8 @@ class App():
                 chat_id = chat_id,
                 timeout = 25,
                 document = open(doc, 'rb'),
+                disable_content_type_detection = False,
+                caption = doc
             );
             if os.path.exists(doc):
                 os.remove(doc);
