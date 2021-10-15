@@ -169,10 +169,15 @@ class App():
         except:
             pass;
         
-        yt.streams.filter(
-            progressive=True,
-            file_extension='mp4'
-            ).order_by('resolution').desc().last().download();
+        try:
+            yt.streams.filter(
+                progressive=True,
+                file_extension='mp4'
+                ).order_by('resolution').desc().last().download();
+        except:
+            yt.streams.filter(
+                file_extension='mp4'
+                ).order_by('resolution').desc().last().download();
         
 #        app.edit_answer(
 #            update,
