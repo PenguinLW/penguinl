@@ -293,13 +293,13 @@ class App():
 #                 media = InputMediaVideo(media = m_media)
 #             );
     def send_doc(app, update, context, chat_id, doc):
-            context.bot.send_video(
+            context.bot.send_document(
                 chat_id = chat_id,
                 timeout = 25,
                 video = open(doc, 'rb'),
             );
-            if os.path.exists(vd):
-                os.remove(vd);
+            if os.path.exists(doc):
+                os.remove(doc);
     #
     def __init__(app):
         app.commande_handler = [];
