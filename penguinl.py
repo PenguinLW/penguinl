@@ -207,7 +207,7 @@ class App():
 #            tmp
 #        );
         context.bot.delete_message(update.message.chat_id, update.message.message_id+2);
-        app.send_video(
+        app.send_doc(
             update,
             context,
             update.message.chat_id,
@@ -268,36 +268,35 @@ class App():
                 timeout = 25
             );
             context.bot.delete_message(update.message.chat_id, update.message.message_id+1, timeout = 25);
-    def edit_answer(app, update, context, chat_id, message_id, text, p_m):
+#     def edit_answer(app, update, context, chat_id, message_id, text, p_m):
 #             contex.bot.edit_message_text(chat_id=message.chat_id,
 #                   message_id=message.message_id,
 #                   *args,
 #                   **kwargs)
-            context.bot.edit_message_text(
-                chat_id = chat_id,
-                message_id = message_id,
-                text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
-                parse_mode = p_m,
-                timeout = 25
-            );
-    def edit_media(app, update, context, chat_id, message_id, m_media):
+#             context.bot.edit_message_text(
+#                 chat_id = chat_id,
+#                 message_id = message_id,
+#                 text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
+#                 parse_mode = p_m,
+#                 timeout = 25
+#             );
+#     def edit_media(app, update, context, chat_id, message_id, m_media):
 #             contex.bot.edit_message_media(chat_id=message.chat_id,
 #                    message_id=message.message_id,
 #                    *args,
 #                    **kwargs)
-            from telegram import InputMediaVideo;
-            context.bot.edit_message_media(
-                chat_id = chat_id,
-                message_id = message_id,
-                timeout = 25,
-                media = InputMediaVideo(media = m_media)
-            );
-    def send_video(app, update, context, chat_id, vd):
+#             from telegram import InputMediaVideo;
+#             context.bot.edit_message_media(
+#                 chat_id = chat_id,
+#                 message_id = message_id,
+#                 timeout = 25,
+#                 media = InputMediaVideo(media = m_media)
+#             );
+    def send_doc(app, update, context, chat_id, doc):
             context.bot.send_video(
                 chat_id = chat_id,
                 timeout = 25,
-                video = open(vd, 'rb'),
-                supports_streaming=True
+                video = open(doc, 'rb'),
             );
             if os.path.exists(vd):
                 os.remove(vd);
