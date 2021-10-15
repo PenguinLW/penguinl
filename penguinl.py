@@ -150,23 +150,23 @@ class App():
         link = link[:len(link)-4]if link.find('qlt') != -1 else link;
         
         from pytube import YouTube;
-        #YouTube(tmp).streams.first().download();
-        yt = YouTube(link);
-        
-        vd_name = yt.streams.filter(
-            progressive=True,
-            file_extension='mp4'
-            ).order_by('resolution').desc().first().title;
-        vd_file = yt.streams.filter(
-            progressive=True,
-            file_extension='mp4'
-            ).order_by('resolution').desc().first().default_filename;
         
 #         try:
 #         except:
 #             pass;
         
         try:
+            #YouTube(tmp).streams.first().download();
+            yt = YouTube(link);
+            
+            vd_name = yt.streams.filter(
+                progressive=True,
+                file_extension='mp4'
+                ).order_by('resolution').desc().first().title;
+            vd_file = yt.streams.filter(
+                progressive=True,
+                file_extension='mp4'
+                ).order_by('resolution').desc().first().default_filename;
             context.bot.delete_message(update.message.chat_id, update.message.message_id);
             
             app.send_answer(
