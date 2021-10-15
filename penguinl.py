@@ -153,7 +153,11 @@ class App():
         #YouTube(tmp).streams.first().download();
         yt = YouTube(link);
         
-        tmp = yt.streams.filter(
+        vd_name = yt.streams.filter(
+            progressive=True,
+            file_extension='mp4'
+            ).order_by('resolution').desc().first().title;
+        vd_file = yt.streams.filter(
             progressive=True,
             file_extension='mp4'
             ).order_by('resolution').desc().first().default_filename;
@@ -169,7 +173,7 @@ class App():
                 update,
                 context,
                 update.message.chat_id,
-                'down init: {0:}'.format(tmp),
+                'down init: {0:}'.format(vd_name),
                 "html"
             );
             if not qlt:
@@ -196,7 +200,7 @@ class App():
                 update,
                 context,
                 update.message.chat_id,
-                'down completed: {0:}\njst send..'.format(tmp),
+                'down completed: {0:}\njst send..'.format(vd_file),
                 "html"
             );
 #            app.edit_media(
@@ -211,14 +215,15 @@ class App():
                 update,
                 context,
                 update.message.chat_id,
-                tmp
+                vd_file,
+                vd_name
             );
         except:
             app.send_answer(
                 update,
                 context,
                 update.message.chat_id,
-                'down stopped: {0:}.'.format(tmp),
+                'down stopped: {0:}.'.format(vd_name),
                 "html"
             );
             context.bot.delete_message(update.message.chat_id, update.message.message_id+1, timeout = 25);
@@ -301,13 +306,13 @@ class App():
 #                 timeout = 25,
 #                 media = InputMediaVideo(media = m_media)
 #             );
-    def send_doc(app, update, context, chat_id, doc):
+    def send_doc(app, update, context, chat_id, doc, doc_name = '..'):
             context.bot.send_document(
                 chat_id = chat_id,
                 timeout = 25,
                 document = open(doc, 'rb'),
                 disable_content_type_detection = False,
-                caption = doc
+                caption = doc_name
             );
             if os.path.exists(doc):
                 os.remove(doc);
