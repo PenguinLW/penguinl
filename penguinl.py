@@ -171,48 +171,57 @@ class App():
         except:
             pass;
         
-        if not qlt:
-            yt.streams.filter(
-                progressive=True,
-                file_extension='mp4'
-                ).order_by('resolution').desc().first().download();
-        else:
-            yt.streams.filter(
-                progressive=True,
-                file_extension='mp4'
-                ).order_by('resolution').desc().last().download();
-        
-#        app.edit_answer(
-#            update,
-#            context,
-#            update.message.chat_id,
-#            update.message.message_id+1,
-#            'down completed: {0:}\njst send..'.format(tmp),
-#            "html"
-#        );
-        context.bot.delete_message(update.message.chat_id, update.message.message_id+1);
-        app.send_answer(
-            update,
-            context,
-            update.message.chat_id,
-            'down completed: {0:}\njst send..'.format(tmp),
-            "html"
-        );
-        
-#        app.edit_media(
-#            update,
-#            context,
-#            update.message.chat_id,
-#            update.message.message_id+1,
-#            tmp
-#        );
-        context.bot.delete_message(update.message.chat_id, update.message.message_id+2);
-        app.send_doc(
-            update,
-            context,
-            update.message.chat_id,
-            tmp
-        );
+        try:
+            if not qlt:
+                yt.streams.filter(
+                    progressive=True,
+                    file_extension='mp4'
+                    ).order_by('resolution').desc().first().download();
+            else:
+                yt.streams.filter(
+                    progressive=True,
+                    file_extension='mp4'
+                    ).order_by('resolution').desc().last().download();
+            
+#            app.edit_answer(
+#                update,
+#                context,
+#                update.message.chat_id,
+#                update.message.message_id+1,
+#                'down completed: {0:}\njst send..'.format(tmp),
+#                "html"
+#            );
+            context.bot.delete_message(update.message.chat_id, update.message.message_id+1);
+            app.send_answer(
+                update,
+                context,
+                update.message.chat_id,
+                'down completed: {0:}\njst send..'.format(tmp),
+                "html"
+            );
+#            app.edit_media(
+#                update,
+#                context,
+#                update.message.chat_id,
+#                update.message.message_id+1,
+#                tmp
+#            );
+            context.bot.delete_message(update.message.chat_id, update.message.message_id+2);
+            app.send_doc(
+                update,
+                context,
+                update.message.chat_id,
+                tmp
+            );
+        except:
+            app.send_answer(
+                update,
+                context,
+                update.message.chat_id,
+                'down init: {0:}'.format(tmp),
+                "html"
+            );
+            context.bot.delete_message(update.message.chat_id, update.message.message_id+1, timeout = 25);
     #
     def answer_user(app, update: Update, context: CallbackContext):
 #        req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
