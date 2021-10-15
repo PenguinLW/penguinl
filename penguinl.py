@@ -170,9 +170,9 @@ class App():
             pass;
         
         yt.streams.filter(
-            progressive=True,
+#            progressive=True,
             file_extension='mp4'
-            ).order_by('resolution').desc().first().download();
+            ).order_by('resolution').desc().last().download();
         
 #        app.edit_answer(
 #            update,
