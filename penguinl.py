@@ -158,6 +158,10 @@ class App():
             file_extension='mp4'
             ).order_by('resolution').desc().first().default_filename;
         
+#         try:
+#         except:
+#             pass;
+        
         try:
             context.bot.delete_message(update.message.chat_id, update.message.message_id);
             
@@ -168,10 +172,6 @@ class App():
                 'down init: {0:}'.format(tmp),
                 "html"
             );
-        except:
-            pass;
-        
-        try:
             if not qlt:
                 yt.streams.filter(
                     progressive=True,
@@ -218,7 +218,7 @@ class App():
                 update,
                 context,
                 update.message.chat_id,
-                'down init: {0:}'.format(tmp),
+                'down stopped: {0:}.'.format(tmp),
                 "html"
             );
             context.bot.delete_message(update.message.chat_id, update.message.message_id+1, timeout = 25);
