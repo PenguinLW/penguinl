@@ -226,7 +226,7 @@ class App():
                 'down stopped: {0:}.'.format(vd_name),
                 "html"
             );
-            context.bot.delete_message(update.message.chat_id, update.message.message_id+1, timeout = 25);
+            context.bot.delete_message(update.message.chat_id, update.message.message_id+3, timeout = 25);
     #
     def answer_user(app, update: Update, context: CallbackContext):
 #        req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
