@@ -149,8 +149,8 @@ class App():
         qlt =  True if link.find('qlt') != -1 else False;
         link = link[:len(link)-4]if link.find('qlt') != -1 else link;
         yt = '';
-        vb_name = '';
-        vb_file = '';
+        vd_name = '';
+        vd_file = '';
         
         from pytube import YouTube;
         
