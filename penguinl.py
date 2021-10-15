@@ -115,10 +115,9 @@ class App():
 
             res = c.do_act[act](a, b);
             c.num = [];
-            query.edit_message_text(res);
-            time.sleep(25);
+            query.edit_message_text(res, timeout = 25);
             app.f_flag = False;
-            context.bot.delete_message(query.message.chat_id, query.message.message_id);
+            context.bot.delete_message(query.message.chat_id, query.message.message_id, timeout = 25);
     #
     def cr_unplan(app, update: Update, context: CallbackContext):
         tmp = update.message.text.replace("/crearplan ", "").split(" ");
@@ -145,15 +144,77 @@ class App():
         );
         time.sleep(25);
         context.bot.delete_message(update.message.chat_id, update.message.message_id+1);
+    def yt_down(app, update: Update, context: CallbackContext):
+        link = update.message.text.replace("/yt_down ", "");
+        
+        from pytube import YouTube;
+        #YouTube(tmp).streams.first().download();
+        yt = YouTube(link);
+        
+        tmp = yt.streams.filter(
+            progressive=True,
+            file_extension='mp4'
+            ).order_by('resolution').desc().first().default_filename;
+        
+        try:
+            context.bot.delete_message(update.message.chat_id, update.message.message_id);
+            
+            app.send_answer(
+                update,
+                context,
+                update.message.chat_id,
+                'down init: {0:}'.format(tmp),
+                "html"
+            );
+        except:
+            pass;
+        
+        yt.streams.filter(
+            progressive=True,
+            file_extension='mp4'
+            ).order_by('resolution').desc().first().download();
+        
+#        app.edit_answer(
+#            update,
+#            context,
+#            update.message.chat_id,
+#            update.message.message_id+1,
+#            'down completed: {0:}\njst send..'.format(tmp),
+#            "html"
+#        );
+        context.bot.delete_message(update.message.chat_id, update.message.message_id+1);
+        app.send_answer(
+            update,
+            context,
+            update.message.chat_id,
+            'down completed: {0:}\njst send..'.format(tmp),
+            "html"
+        );
+        
+#        app.edit_media(
+#            update,
+#            context,
+#            update.message.chat_id,
+#            update.message.message_id+1,
+#            tmp
+#        );
+        context.bot.delete_message(update.message.chat_id, update.message.message_id+2);
+        app.send_video(
+            update,
+            context,
+            update.message.chat_id,
+            tmp
+        );
     #
     def answer_user(app, update: Update, context: CallbackContext):
-        req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
-        req.lang = "ru";
-        req.session_id = "PenguinL";
-        req.query = update.message.text;
-
-        res = json.loads(req.getresponse().read().decode("utf-8"));
-        res = res["result"]["fulfillment"]["speech"];
+#        req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
+#        req.lang = "ru";
+#        req.session_id = "PenguinL";
+#        req.query = update.message.text;
+#
+#        res = json.loads(req.getresponse().read().decode("utf-8"));
+#        res = res["result"]["fulfillment"]["speech"];
+        res = False
         if res:
             app.send_answer(
                 update,
@@ -178,6 +239,7 @@ class App():
                 chat_id = chat_id,
                 text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
                 parse_mode = p_m,
+                timeout = 25,
                 reply_markup = ReplyKeyboardMarkup([
                     list(
                         (KeyboardButton("/show_all_in {0:s}".format(q)) for q in l_event)
@@ -194,10 +256,43 @@ class App():
             context.bot.send_message(
                 chat_id = chat_id,
                 text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
-                parse_mode = p_m
+                parse_mode = p_m,
+                timeout = 25
             );
-            time.sleep(25);
-            context.bot.delete_message(update.message.chat_id, update.message.message_id+1);
+            context.bot.delete_message(update.message.chat_id, update.message.message_id+1, timeout = 25);
+    def edit_answer(app, update, context, chat_id, message_id, text, p_m):
+#             contex.bot.edit_message_text(chat_id=message.chat_id,
+#                   message_id=message.message_id,
+#                   *args,
+#                   **kwargs)
+            context.bot.edit_message_text(
+                chat_id = chat_id,
+                message_id = message_id,
+                text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
+                parse_mode = p_m,
+                timeout = 25
+            );
+    def edit_media(app, update, context, chat_id, message_id, m_media):
+#             contex.bot.edit_message_media(chat_id=message.chat_id,
+#                    message_id=message.message_id,
+#                    *args,
+#                    **kwargs)
+            from telegram import InputMediaVideo;
+            context.bot.edit_message_media(
+                chat_id = chat_id,
+                message_id = message_id,
+                timeout = 25,
+                media = InputMediaVideo(media = m_media)
+            );
+    def send_video(app, update, context, chat_id, vd):
+            context.bot.send_video(
+                chat_id = chat_id,
+                timeout = 25,
+                video = open(vd, 'rb'),
+                supports_streaming=True
+            );
+            if os.path.exists(vd):
+                os.remove(vd);
     #
     def __init__(app):
         app.commande_handler = [];
@@ -209,7 +304,7 @@ class App():
         );
 
         app.c = calc.Calculate();
-        app.f_flag = False;
+        app.f_flag = True;
 
         app.commande_handler.append(CommandHandler("start", app.hola_user));
         app.commande_handler.append(CommandHandler("la_comienzo", app.hola_user));
@@ -217,6 +312,7 @@ class App():
         app.commande_handler.append(CommandHandler("crearplan", app.cr_unplan));
         app.commande_handler.append(CommandHandler("el_minutero", app.el_minutero));
         app.commande_handler.append(CommandHandler("show_all_in", app.show_all_in));
+        app.commande_handler.append(CommandHandler("yt_down", app.yt_down));
         app.commande_handler.append(MessageHandler(Filters.text, app.answer_user));
         app.commande_handler.append(CallbackQueryHandler(app.calc_b));
         
