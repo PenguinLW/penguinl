@@ -115,9 +115,11 @@ class App():
 
             res = c.do_act[act](a, b);
             c.num = [];
-            query.edit_message_text(res, timeout = 25);
+            time.sleep(25);
+            query.edit_message_text(res);
             app.f_flag = False;
-            context.bot.delete_message(query.message.chat_id, query.message.message_id, timeout = 25);
+            time.sleep(25);
+            context.bot.delete_message(query.message.chat_id, query.message.message_id);
     #
     def cr_unplan(app, update: Update, context: CallbackContext):
         tmp = update.message.text.replace("/crearplan ", "").split(" ");
@@ -229,7 +231,11 @@ class App():
                 'down stopped: {0:}.'.format(vd_name),
                 "html"
             );
-            context.bot.delete_message(update.message.chat_id, update.message.message_id+3, timeout = 25);
+            time.sleep(4);
+            try:
+                context.bot.delete_message(update.message.chat_id, update.message.message_id+3);
+            except:
+                context.bot.delete_message(update.message.chat_id, update.message.message_id);
     #
     def answer_user(app, update: Update, context: CallbackContext):
 #        req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
@@ -260,11 +266,11 @@ class App():
     def send_answer(app, update, context, chat_id, text, p_m):
         if app.p_inf.search_person(update.message.chat_id) != 0:
             l_event = app.p_inf.sub_show_plan(chat_id);
+            time.sleep(4);
             context.bot.send_message(
                 chat_id = chat_id,
                 text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
-                parse_mode = p_m,
-                timeout = 25,
+                parse_mode = p_m
                 reply_markup = ReplyKeyboardMarkup([
                     list(
                         (KeyboardButton("/show_all_in {0:s}".format(q)) for q in l_event)
@@ -278,24 +284,25 @@ class App():
             text = "Вы не зарегистрированы в системе."+\
                    "Используйте /start для того, чтобы начать наше продуктивное общение.";
             p_m = "html"
+            time.sleep(4);
             context.bot.send_message(
                 chat_id = chat_id,
                 text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
-                parse_mode = p_m,
-                timeout = 25
+                parse_mode = p_m
             );
-            context.bot.delete_message(update.message.chat_id, update.message.message_id+1, timeout = 25);
+            time.sleep(4);
+            context.bot.delete_message(update.message.chat_id, update.message.message_id+1);
 #     def edit_answer(app, update, context, chat_id, message_id, text, p_m):
 #             contex.bot.edit_message_text(chat_id=message.chat_id,
 #                   message_id=message.message_id,
 #                   *args,
-#                   **kwargs)
+#                   **kwargs);
+#             time.sleep(25);
 #             context.bot.edit_message_text(
 #                 chat_id = chat_id,
 #                 message_id = message_id,
 #                 text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
-#                 parse_mode = p_m,
-#                 timeout = 25
+#                 parse_mode = p_m
 #             );
 #     def edit_media(app, update, context, chat_id, message_id, m_media):
 #             contex.bot.edit_message_media(chat_id=message.chat_id,
@@ -303,16 +310,16 @@ class App():
 #                    *args,
 #                    **kwargs)
 #             from telegram import InputMediaVideo;
+#             time.sleep(25);
 #             context.bot.edit_message_media(
 #                 chat_id = chat_id,
-#                 message_id = message_id,
-#                 timeout = 25,
+#                 message_id = message_id
 #                 media = InputMediaVideo(media = m_media)
 #             );
     def send_doc(app, update, context, chat_id, doc, doc_name = '..'):
+        time.sleep(4);
             context.bot.send_document(
                 chat_id = chat_id,
-                timeout = 25,
                 document = open(doc, 'rb'),
                 disable_content_type_detection = False,
                 caption = doc_name
