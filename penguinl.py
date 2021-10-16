@@ -235,7 +235,7 @@ class App():
             try:
                 context.bot.delete_message(update.message.chat_id, update.message.message_id+3);
             except:
-                context.bot.delete_message(update.message.chat_id, update.message.message_id);
+                context.bot.delete_message(update.message.chat_id, update.message.message_id+1);
     #
     def answer_user(app, update: Update, context: CallbackContext):
 #        req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
