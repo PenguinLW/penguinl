@@ -270,7 +270,7 @@ class App():
             context.bot.send_message(
                 chat_id = chat_id,
                 text = "*"+text+"*" if p_m == "markdown" else "<em>"+text+"</em>",
-                parse_mode = p_m
+                parse_mode = p_m,
                 reply_markup = ReplyKeyboardMarkup([
                     list(
                         (KeyboardButton("/show_all_in {0:s}".format(q)) for q in l_event)
