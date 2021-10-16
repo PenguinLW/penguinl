@@ -318,14 +318,14 @@ class App():
 #             );
     def send_doc(app, update, context, chat_id, doc, doc_name = '..'):
         time.sleep(4);
-            context.bot.send_document(
-                chat_id = chat_id,
-                document = open(doc, 'rb'),
-                disable_content_type_detection = False,
-                caption = doc_name
-            );
-            if os.path.exists(doc):
-                os.remove(doc);
+        context.bot.send_document(
+            chat_id = chat_id,
+            document = open(doc, 'rb'),
+            disable_content_type_detection = False,
+            caption = doc_name
+        );
+        if os.path.exists(doc):
+            os.remove(doc);
     #
     def __init__(app):
         app.commande_handler = [];
