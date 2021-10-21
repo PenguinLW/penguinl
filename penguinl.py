@@ -12,7 +12,7 @@ from telegram.ext import Filters;
 
 
 import calculate as calc;
-import os, apiai, json, time;
+import os, json, time;# apiai,
 
 from config import P_Bot;
 
