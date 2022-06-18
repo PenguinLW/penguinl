@@ -10,10 +10,10 @@ charset-normalizer==2.0.6
 cryptography==3.4.7
 decorator==5.0.9
 future==0.18.2
-google-api-core==2.0.1
-google-auth==2.2.1
-google-cloud-dialogflow==2.9.0
-googleapis-common-protos==1.53.0
+#google-api-core==2.0.1
+#google-auth==2.2.1
+#google-cloud-dialogflow==2.9.0
+#googleapis-common-protos==1.53.0
 grpcio==1.41.0
 idna==3.2
 importlib-resources==5.2.2
