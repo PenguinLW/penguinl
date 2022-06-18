@@ -8,10 +8,10 @@ class P_db:
             соединия и создание "курсора".
         """
         app.conn = psycopg2.connect(
-            host="ec2-79-125-4-72.eu-west-1.compute.amazonaws.com",
-            database="d4gh86bmbovta3",
-            user="svnlghwnrdjbdt",
-            password="8684c48054603cb06ee7ea4bc3116909bcb6cd4faaa794891874141914517e20"
+            host="ec2-52-209-237-240.eu-west-1.compute.amazonaws.com",
+            database="d2sbiqh1d5ghsl",
+            user="hwblqcbaapvvrt",
+            password="f6ff83389dc1c79fde81c833b445d8ea9065ca9e4a76783e5802e7f6a300f133"
         );
         app.p_user_db = app.conn.cursor();
 
