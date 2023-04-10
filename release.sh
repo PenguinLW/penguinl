@@ -3,7 +3,7 @@
 #pip install -r req.txt
 pip freeze > req.txt
 chmod u+x *.sh *.py
-#git clone -o penguinl https://github.com/Kovalsky95/penguinl.git
+#git clone -o penguinl https://github.com/PenguinLW/penguinl.git
 #git config --global user.email "diana1997525@gmail.com"
 #git config --global user.name "Kovalsky95"
 #git config --global credential.helper cache
