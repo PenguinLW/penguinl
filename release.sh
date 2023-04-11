@@ -1,5 +1,5 @@
 #in venv
-. venv/bin/activate
+. ~/venv/bin/activate
 #pip install -r req.txt
 pip freeze > req.txt
 chmod u+x *.sh *.py
