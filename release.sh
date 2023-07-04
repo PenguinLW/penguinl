@@ -4,7 +4,7 @@
 #pip freeze > req.txt
 chmod u+x *.sh *.py
 
-#git config --global --add safe.directory /media/penguinl/PenguinL/PycharmProjects/penguinl
+git config --global --add safe.directory /media/penguinl/PenguinL/PycharmProjects/penguinl
 #git clone -o penguinl https://github.com/PenguinLW/penguinl.git
 #git config --global user.email "diana1997525@gmail.com"
 #git config --global user.name "PenguinLW"
