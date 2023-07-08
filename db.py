@@ -3,6 +3,10 @@ class P_db:
 
     # выполнение взаимодействия с базой данных пользователей "начавших общение"
     def connect_to_db(app):
+        """
+            Соединение с базой данных - открытие
+            соединия и создание "курсора".
+        """
         from dotenv import load_dotenv
         import os
 
@@ -12,10 +16,7 @@ class P_db:
         database = os.getenv("database")
         user = os.getenv("user")
         password = os.getenv("password")
-        """
-            Соединение с базой данных - открытие
-            соединия и создание "курсора".
-        """
+        
         app.conn = psycopg2.connect(
             host=host,
             database=database,
