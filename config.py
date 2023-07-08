@@ -2,16 +2,24 @@ from db import P_db;
 class P_Bot:
     #инициализация экземпляра класса P_Bot
     def __init__(app):
+        from dotenv import load_dotenv
+        import os
+
+        load_dotenv()
+
+        p_admin_id = os.getenv("p_admin_id")
+        p_token = os.getenv("p_token")
+        dtoken = os.getenv("dtoken")
         """
             Экземпляр класса инициализирует служебные функции,
             необходимые для функционирования приложения, а
             также базовую информацию зарегистрированного
             бота.
         """
-        app.p_admin_id = "696236779";
-        app.p_token = "639880775:AAEE5EDh34EBVSpAzHTAF9byK-0lA4Eg0jQ";
-        app.p_base_url = "https://api.telegram.org/bot";#"http://telegg.ru/orig/bot";
-        app.dtoken = "7ac8e3b62b22437794a2a4755ada1990";
+        app.p_admin_id = p_admin_id;
+        app.p_token = p_token;
+        app.p_base_url = "https://api.telegram.org/bot"; #"http://telegg.ru/orig/bot";
+        app.dtoken = dtoken;
 
         app.db = P_db();
 

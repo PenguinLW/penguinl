@@ -3,15 +3,24 @@ class P_db:
 
     # выполнение взаимодействия с базой данных пользователей "начавших общение"
     def connect_to_db(app):
+        from dotenv import load_dotenv
+        import os
+
+        load_dotenv()
+
+        host = os.getenv("host")
+        database = os.getenv("database")
+        user = os.getenv("user")
+        password = os.getenv("password")
         """
             Соединение с базой данных - открытие
             соединия и создание "курсора".
         """
         app.conn = psycopg2.connect(
-            host="ec2-52-209-237-240.eu-west-1.compute.amazonaws.com",
-            database="d2sbiqh1d5ghsl",
-            user="hwblqcbaapvvrt",
-            password="f6ff83389dc1c79fde81c833b445d8ea9065ca9e4a76783e5802e7f6a300f133"
+            host=host,
+            database=database,
+            user=user,
+            password=password
         );
         app.p_user_db = app.conn.cursor();
 

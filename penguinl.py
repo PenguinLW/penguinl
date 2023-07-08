@@ -8,7 +8,7 @@ from telegram.ext import CallbackContext;
 from telegram.ext import CommandHandler;
 from telegram.ext import MessageHandler;
 from telegram.ext import CallbackQueryHandler;
-from telegram.ext import Filters;
+from telegram.ext import filters;
 
 
 import calculate as calc;
@@ -239,13 +239,13 @@ class App():
                 context.bot.delete_message(update.message.chat_id, update.message.message_id+1);
     #
     def answer_user(app, update: Update, context: CallbackContext):
-#        req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
-#        req.lang = "ru";
-#        req.session_id = "PenguinL";
-#        req.query = update.message.text;
-#
-#        res = json.loads(req.getresponse().read().decode("utf-8"));
-#        res = res["result"]["fulfillment"]["speech"];
+        # req = apiai.ApiAI(app.p_inf.get_dtoken()).text_request();
+        # req.lang = "ru";
+        # req.session_id = "PenguinL";
+        # req.query = update.message.text;
+        #
+        # res = json.loads(req.getresponse().read().decode("utf-8"));
+        # res = res["result"]["fulfillment"]["speech"];
         res = False
         if res:
             app.send_answer(
