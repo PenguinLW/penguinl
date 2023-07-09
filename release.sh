@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #in venv
 #source ~/venv/bin/activate
 #pip install -r req.txt
