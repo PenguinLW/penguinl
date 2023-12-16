@@ -1,5 +1,6 @@
+##https://discord.com/developers/docs/intro
 import discord
-from discord.et import commands
+from discord.ext import commands
 
 
 
@@ -12,14 +13,14 @@ load_dotenv()
 p_token = os.getenv("p_token")
 #dtoken = os.getenv("dtoken")
 
-client = commands.Bot(command_prefi = '!')
+client = commands.Bot(command_prefix = '!')
 
 @client.event
 async def on_ready():
     print("TH")
 
 @client.command()
-async def hello(ct):
-await ct.send("HE")
+async def hello(ctx):
+await ctx.send("HE")
 
 client.run(p_token)
