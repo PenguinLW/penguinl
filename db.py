@@ -17,6 +17,8 @@ class P_db:
         user = os.getenv("user")
         password = os.getenv("password")
         
+        app.webhook_host = os.getenv("webhook_host")
+        
         app.conn = psycopg2.connect(
             host=host,
             database=database,

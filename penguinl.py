@@ -8,7 +8,7 @@ from telegram.ext import CallbackContext;
 from telegram.ext import CommandHandler;
 from telegram.ext import MessageHandler;
 from telegram.ext import CallbackQueryHandler;
-from telegram.ext import filters;
+from telegram.ext import Filters;
 
 
 import calculate as calc;
@@ -354,19 +354,29 @@ class App():
             app.updater.dispatcher.add_handler(el);
         app.app_run();
     def app_run(app):
-        if app.f_flag:
-            app.updater.start_polling();
-        else:
-            # add handlers
-            app.updater.start_webhook(
-                listen = "0.0.0.0",
-                port = int(os.environ.get('PORT', '8443')),
-                url_path = app.p_inf.get_token(),
-                webhook_url = "https://penguinl.herokuapp.com/" + app.p_inf.get_token()
-                #url_path = app.p_inf.get_token()
-            );
-            #app.updater.bot.set_webhook("https://penguinl.herokuapp.com/" + app.p_inf.get_token());
-
+        app.updater.start_polling();
+        #if app.f_flag:
+        #    app.updater.start_polling();
+        #else:
+        #    # add handlers
+        #    app.updater.start_webhook(
+        #        listen = "0.0.0.0",
+        #        port = int(os.environ.get('PORT', '8443')),
+        #        url_path = app.p_inf.get_token()#,
+        #        #webhook_url = app.p_inf.get_webhook_host() + app.p_inf.get_token()
+        #        #url_path = app.p_inf.get_token()
+        #    );
+        #    #app.updater.bot.set_webhook("https://penguinl.herokuapp.com/" + app.p_inf.get_token());
+        # add handlers
+        app.updater.start_webhook(
+            listen = "0.0.0.0",
+            port = int(os.environ.get('PORT', '8443')),
+            url_path = app.p_inf.get_token()#,
+            #webhook_url = app.p_inf.get_webhook_host() + app.p_inf.get_token()
+            #url_path = app.p_inf.get_token()
+        );
+        #app.updater.bot.set_webhook("https://penguinl.herokuapp.com/" + app.p_inf.get_token());
+        
         app.updater.idle();
 if __name__ == "__main__":
     App();
