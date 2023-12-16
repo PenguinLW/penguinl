@@ -22,7 +22,7 @@ intents = discord.Intents.all()
 intents.members = True
 intents.typing = True
 intents.presences = False
-intent.message_content = True
+intents.message_content = True
 
 client = commands.Bot(command_prefix = '!', intents = intents)
 
