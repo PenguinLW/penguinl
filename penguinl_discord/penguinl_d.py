@@ -15,9 +15,10 @@ load_dotenv()
 p_token = os.getenv("p_token")
 #dtoken = os.getenv("dtoken")
 
-intents = discord.Intents.default()
+intents = discord.Intents.all()
+intents.members = True
 intents.typing = True
-intents.presences = False
+intents.presences = True
 
 client = commands.Bot(command_prefix = '!', intents = intents)
 
