@@ -21,6 +21,6 @@ async def on_ready():
 
 @client.command()
 async def hello(ctx):
-await ctx.send("HE")
+    await ctx.send("HE")
 
 client.run(p_token)
