@@ -17,7 +17,7 @@ p_token = os.getenv("p_token")
 
 intents = discord.Intents.default()
 intents.typing = True
-intents.presences = True
+intents.presences = False
 
 client = commands.Bot(command_prefix = '!', intents = intents)
 
