@@ -1,0 +1,5 @@
+#!/bin/bash
+sudo -su postgres
+cd /path/to/custom/user/folder/
+pg_dump -U postgres -W -F t {database_name} > {database_name}.tar
+pg_dump -U postgres -W -F t {database_name} > {database_name}.tar
