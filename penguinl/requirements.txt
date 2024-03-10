@@ -1,0 +1,10 @@
+#python-telegram-bot==13.12
+#psycopg2-binary==2.9.3
+#pip
+#google-api-core==2.0.1
+#google-auth==2.2.1
+#google-cloud-dialogflow==2.9.0
+#googleapis-common-protos==1.53.0
+#numpy==1.22.4
+#pytube==11.0.1
+#urllib3
