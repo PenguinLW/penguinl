@@ -1,2 +1,0 @@
-# penguinl
-PenguinL -  telegram-bot
