@@ -146,6 +146,22 @@ class App():
         );
         time.sleep(25);
         context.bot.delete_message(update.message.chat_id, update.message.message_id+1);
+    def rsp(app, update: Update, context: CallbackContext):
+        import random;
+        from rock_scissors_paper import rock_scissors_paper, number_to_name
+        content = rock_scissors_paper(number_to_name(random.randrange(0,3)))
+        context.bot.delete_message(update.message.chat_id, update.message.message_id);
+        for i in range)0, 1000):
+		    time.sleep(25);
+		    app.send_answer(
+		        update,
+		        context,
+		        update.message.chat_id,
+		        content,
+		        "markdown"
+		    );
+		time.sleep(25);
+        context.bot.delete_message(update.message.chat_id, update.message.message_id+1);
     def yt_down(app, update: Update, context: CallbackContext):
         link = update.message.text.replace("/yt_down ", "");
         qlt =  True if link.find('qlt') != -1 else False;
@@ -346,6 +362,7 @@ class App():
         app.commande_handler.append(CommandHandler("crearplan", app.cr_unplan));
         app.commande_handler.append(CommandHandler("el_minutero", app.el_minutero));
         app.commande_handler.append(CommandHandler("show_all_in", app.show_all_in));
+        app.commande_handler.append(CommandHandler("rsp", app.rsp));
         app.commande_handler.append(CommandHandler("yt_down", app.yt_down));
         app.commande_handler.append(MessageHandler(Filters.text, app.answer_user));
         app.commande_handler.append(CallbackQueryHandler(app.calc_b));
