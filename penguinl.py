@@ -154,11 +154,11 @@ class App():
         context.bot.delete_message(update.message.chat_id, update.message.message_id + 1);
 
     def rsp(app, update: Update, context: CallbackContext):
-        import random;
-        from rock_scissors_paper import rock_scissors_paper, number_to_name
+        #import random;
+        from rock_scissors_paper import rock_scissors_paper#, number_to_name
         context.bot.delete_message(update.message.chat_id, update.message.message_id);
         for i in range(1, 999):
-            content = rock_scissors_paper(number_to_name(random.randrange(0, 3)))
+            content = rock_scissors_paper()#number_to_name(random.randrange(0, 3)))
             app.send_answer(
                 update,
                 context,
