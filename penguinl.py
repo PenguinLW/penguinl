@@ -10,7 +10,6 @@ from telegram.ext import MessageHandler;
 from telegram.ext import CallbackQueryHandler;
 from telegram.ext import Filters;
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 
 import calculate as calc;
 import os, json, time;  # apiai,
@@ -380,8 +379,6 @@ class App():
             base_url=app.p_inf.get_base_url(),
             use_context=True
         );
-
-        app.executor = ThreadPoolExecutor();
         
         app.c = calc.Calculate();
         app.f_flag = False;
@@ -411,7 +408,7 @@ class App():
         loop = asyncio.new_event_loop()  # Создаем новый цикл событий
         asyncio.set_event_loop(loop)  # Устанавливаем его текущим
         loop.run_until_complete(app.ausp())  # Запускаем асинхронную функцию
-        #loop.close()
+        loop.close()
         
         # if app.f_flag:
         #    app.updater.start_polling();
