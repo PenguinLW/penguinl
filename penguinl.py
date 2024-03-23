@@ -9,6 +9,7 @@ from telegram.ext import CommandHandler;
 from telegram.ext import MessageHandler;
 from telegram.ext import CallbackQueryHandler;
 from telegram.ext import Filters;
+import asyncio
 
 import calculate as calc;
 import os, json, time;  # apiai,
@@ -153,21 +154,45 @@ class App():
         time.sleep(25);
         context.bot.delete_message(update.message.chat_id, update.message.message_id + 1);
 
-    def rsp(app, update: Update, context: CallbackContext):
-        #import random;
-        from rock_scissors_paper import rock_scissors_paper#, number_to_name
+    async def r_s_p(app, update: Update, context: CallbackContext):
+        #chat_id = update.effective_chat.id
+        from rock_scissors_paper import rock_scissors_paper
         context.bot.delete_message(update.message.chat_id, update.message.message_id);
-        for i in range(1, 999):
+        content = rock_scissors_paper()
+        '''app.send_answer(
+            update,
+            context,
+            update.effective_chat.id,
+            "Ищем игроков ..",
+            "markdown"
+        );'''
+        for i in range(1, 2001):
             content = rock_scissors_paper()#number_to_name(random.randrange(0, 3)))
             app.send_answer(
                 update,
                 context,
                 update.message.chat_id,
-                content,
+                "{:s}{:n}.\n{:s}".format("Партия №", i, content),
                 "markdown"
             );
-            time.sleep(25);
+            '''context.bot.edit_message_text(
+                update.effective_chat.id,#update.effective_chat.id,#update.message.chat_id,
+                update.message.message_id,#update.message.message_id + 1,
+                content
+            );'''
+            await asyncio.sleep(50);#time.sleep(50);
             context.bot.delete_message(update.message.chat_id, update.message.message_id + i);
+
+    async def rsp(app, update: Update, context: CallbackContext):
+        await app.r_s_p(update, context)
+    
+    def rsp_wrapper(app, update: Update, context: CallbackContext):
+        #asyncio.run_coroutine_threadsafe(app.rsp(update, context), context.bot.loop)
+        #print(update, context, update.effective_chat.id, update.message.chat_id, update.message.message_id)
+        loop = asyncio.new_event_loop()  # Создаем новый цикл событий
+        asyncio.set_event_loop(loop)  # Устанавливаем его текущим
+        loop.run_until_complete(app.rsp(update, context))  # Запускаем асинхронную функцию
+        loop.close()  # Закрываем цикл после выполнения
 
     def yt_down(app, update: Update, context: CallbackContext):
         link = update.message.text.replace("/yt_down ", "");
@@ -373,7 +398,7 @@ class App():
         app.commande_handler.append(CommandHandler("crearplan", app.cr_unplan));
         app.commande_handler.append(CommandHandler("el_minutero", app.el_minutero));
         app.commande_handler.append(CommandHandler("show_all_in", app.show_all_in));
-        app.commande_handler.append(CommandHandler("rsp", app.rsp));
+        app.commande_handler.append(CommandHandler("rsp", app.rsp_wrapper));
         app.commande_handler.append(CommandHandler("yt_down", app.yt_down));
         app.commande_handler.append(MessageHandler(Filters.text, app.answer_user));
         app.commande_handler.append(CallbackQueryHandler(app.calc_b));
