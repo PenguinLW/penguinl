@@ -154,32 +154,10 @@ class App():
         );
         time.sleep(25);
         context.bot.delete_message(update.message.chat_id, update.message.message_id + 1);
-
-    # Функция для отправки сообщения (синхронная)
-    def send_message_sync(app, context, chat_id, text):
-        return context.bot.send_message(chat_id, text)
     
-    # Функция-обертка для вызова синхронной функции в асинхронном контексте
-    async def send_message_async(app, context, chat_id, text):
-        return await asyncio.get_event_loop().run_in_executor(app.executor, app.send_message_sync, context, chat_id, text)
-    
-    # Асинхронная функция для отправки сообщений с паузами
-    async def send_messages_with_delay(app, context, chat_id, message_id, total_messages):
+    def rsp_wrapper(app, update: Update, context: CallbackContext):
         from rock_scissors_paper import rock_scissors_paper
-        content = rock_scissors_paper()
         
-        for i in range(total_messages):
-            await app.send_message_async(context, chat_id, "{:s}{:n}.\n{:s}".format("Партия №", i+1, content))#f"Сообщение {i+1}/{total_messages}")
-            await asyncio.sleep(50)  # Пауза в 50 секунд
-            context.bot.delete_message(chat_id, message_id + (i+1));
-    
-    async def r_s_p(app, update: Update, context: CallbackContext):
-        #from rock_scissors_paper import rock_scissors_paper
-        
-        context.bot.delete_message(update.message.chat_id, update.message.message_id);
-        
-        await app.send_messages_with_delay(context, update.message.chat_id, update.message.message_id, 2000)
-        """
         context.bot.delete_message(update.message.chat_id, update.message.message_id);
         content = rock_scissors_paper()
         '''app.send_answer(
@@ -190,7 +168,7 @@ class App():
             "markdown"
         );'''
         for i in range(1, 2001):
-            content = rock_scissors_paper()#number_to_name(random.randrange(0, 3)))
+            content = rock_scissors_paper()
             app.send_answer(
                 update,
                 context,
@@ -198,26 +176,16 @@ class App():
                 "{:s}{:n}.\n{:s}".format("Партия №", i, content),
                 "markdown"
             );
-            '''context.bot.edit_message_text(
+            '''
+            context.bot.edit_message_text(
                 update.effective_chat.id,#update.effective_chat.id,#update.message.chat_id,
                 update.message.message_id,#update.message.message_id + 1,
                 content
-            );'''
-            await asyncio.sleep(50);#time.sleep(50);
+            );
+            '''
+            time.sleep(50);#await asyncio.sleep(50);
             context.bot.delete_message(update.message.chat_id, update.message.message_id + i);
-            """
     
-    async def rsp(app, update: Update, context: CallbackContext):
-        await app.r_s_p(update, context)
-    
-    def rsp_wrapper(app, update: Update, context: CallbackContext):
-        #asyncio.run_coroutine_threadsafe(app.rsp(update, context), context.bot.loop)
-        #print(update, context, update.effective_chat.id, update.message.chat_id, update.message.message_id)
-        loop = asyncio.new_event_loop()  # Создаем новый цикл событий
-        asyncio.set_event_loop(loop)  # Устанавливаем его текущим
-        loop.run_until_complete(app.rsp(update, context))  # Запускаем асинхронную функцию
-        loop.close()  # Закрываем цикл после выполнения
-
     def yt_down(app, update: Update, context: CallbackContext):
         link = update.message.text.replace("/yt_down ", "");
         qlt = True if link.find('qlt') != -1 else False;
@@ -432,9 +400,19 @@ class App():
         for el in app.commande_handler:
             app.updater.dispatcher.add_handler(el);
         app.app_run();
-
+    
+    async def ausp(app):
+        app.updater.start_polling()
+    
     def app_run(app):
-        app.updater.start_polling();
+        #app.updater.start_polling();
+        
+        #asyncio.run(app.ausp())
+        loop = asyncio.new_event_loop()  # Создаем новый цикл событий
+        asyncio.set_event_loop(loop)  # Устанавливаем его текущим
+        loop.run_until_complete(app.ausp())  # Запускаем асинхронную функцию
+        #loop.close()
+        
         # if app.f_flag:
         #    app.updater.start_polling();
         # else:
@@ -457,7 +435,7 @@ class App():
         );
         # app.updater.bot.set_webhook("https://penguinl.herokuapp.com/" + app.p_inf.get_token());
 
-        app.updater.idle();
+        #app.updater.idle();
 
 
 if __name__ == "__main__":
