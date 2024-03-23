@@ -10,6 +10,7 @@ from telegram.ext import MessageHandler;
 from telegram.ext import CallbackQueryHandler;
 from telegram.ext import Filters;
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
 
 import calculate as calc;
 import os, json, time;  # apiai,
@@ -154,9 +155,31 @@ class App():
         time.sleep(25);
         context.bot.delete_message(update.message.chat_id, update.message.message_id + 1);
 
-    async def r_s_p(app, update: Update, context: CallbackContext):
-        #chat_id = update.effective_chat.id
+    # Функция для отправки сообщения (синхронная)
+    def send_message_sync(app, context, chat_id, text):
+        return context.bot.send_message(chat_id, text)
+    
+    # Функция-обертка для вызова синхронной функции в асинхронном контексте
+    async def send_message_async(app, context, chat_id, text):
+        return await asyncio.get_event_loop().run_in_executor(app.executor, app.send_message_sync, context, chat_id, text)
+    
+    # Асинхронная функция для отправки сообщений с паузами
+    async def send_messages_with_delay(app, context, chat_id, message_id, total_messages):
         from rock_scissors_paper import rock_scissors_paper
+        content = rock_scissors_paper()
+        
+        for i in range(total_messages):
+            await app.send_message_async(context, chat_id, "{:s}{:n}.\n{:s}".format("Партия №", i+1, content))#f"Сообщение {i+1}/{total_messages}")
+            await asyncio.sleep(50)  # Пауза в 50 секунд
+            context.bot.delete_message(chat_id, message_id + (i+1));
+    
+    async def r_s_p(app, update: Update, context: CallbackContext):
+        #from rock_scissors_paper import rock_scissors_paper
+        
+        context.bot.delete_message(update.message.chat_id, update.message.message_id);
+        
+        await app.send_messages_with_delay(context, update.message.chat_id, update.message.message_id, 2000)
+        """
         context.bot.delete_message(update.message.chat_id, update.message.message_id);
         content = rock_scissors_paper()
         '''app.send_answer(
@@ -182,7 +205,8 @@ class App():
             );'''
             await asyncio.sleep(50);#time.sleep(50);
             context.bot.delete_message(update.message.chat_id, update.message.message_id + i);
-
+            """
+    
     async def rsp(app, update: Update, context: CallbackContext):
         await app.r_s_p(update, context)
     
@@ -389,6 +413,8 @@ class App():
             use_context=True
         );
 
+        app.executor = ThreadPoolExecutor();
+        
         app.c = calc.Calculate();
         app.f_flag = False;
 
