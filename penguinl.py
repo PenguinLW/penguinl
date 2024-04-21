@@ -11,10 +11,14 @@ from telegram.ext import CallbackQueryHandler;
 from telegram.ext import Filters;
 import asyncio
 
-import calculate as calc;
-import os, json, time;  # apiai,
+from library import calculate as calc
+from config import config
+from data import db
+from library import calculate, rock_scissors_paper
+from penguinl_x import penguinl_x
+import os, time;  # apiai,
 
-from config import P_Bot;
+from config.config import P_Bot;
 
 
 class App():
@@ -155,7 +159,7 @@ class App():
         context.bot.delete_message(update.message.chat_id, update.message.message_id + 1);
     
     def rsp_wrapper(app, update: Update, context: CallbackContext):
-        from rock_scissors_paper import rock_scissors_paper
+        from ..library.rock_scissors_paper import rock_scissors_paper
         
         context.bot.delete_message(update.message.chat_id, update.message.message_id);
         content = rock_scissors_paper()

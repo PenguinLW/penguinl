@@ -3,6 +3,9 @@ from dotenv import load_dotenv
 import os
 import asyncio
 
+from library.rock_scissors_paper import rock_scissors_paper
+from library.rock_scissors_paper import rock_scissors_paper
+from library import rock_scissors_paper
 load_dotenv()
 p_token = os.getenv("p_token")
 p_admin_id = os.getenv("p_admin_id")

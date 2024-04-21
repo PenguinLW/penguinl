@@ -1,4 +1,4 @@
-from db import P_db;
+from data.db import P_db;
 class P_Bot:
     #инициализация экземпляра класса P_Bot
     def __init__(app):
