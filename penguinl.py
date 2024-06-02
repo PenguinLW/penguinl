@@ -15,7 +15,7 @@ from library import calculate as calc
 from config import config
 from data import db
 from library import calculate, rock_scissors_paper
-from penguinl_x import penguinl_x
+#from penguinl_x import penguinl_x
 import os, time;  # apiai,
 
 from config.config import P_Bot;

@@ -4,8 +4,6 @@ import os
 import asyncio
 
 from library.rock_scissors_paper import rock_scissors_paper
-from library.rock_scissors_paper import rock_scissors_paper
-from library import rock_scissors_paper
 load_dotenv()
 p_token = os.getenv("p_token")
 p_admin_id = os.getenv("p_admin_id")
@@ -31,10 +29,12 @@ class MyBot:
             await self.bot.send_message(message.chat.id, f"Вы написали: {message.text}")
 
     async def send_and_edit_message(self):
-        message = await self.bot.send_message(self.chat_id, 'Начальное сообщение')
-        for i in range(5):
+        message = await self.bot.send_message(self.chat_id, 'Ищем игроков ..')
+        
+        for i in range(1, 2001):
+            content = rock_scissors_paper()
             await asyncio.sleep(2)
-            await self.bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text=f'Сообщение после обновления {i+1}')
+            await self.bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text=f'Партия #{i+1}\n{content}')
 
     def run(self):
         executor.start_polling(self.dp)
