@@ -1,14 +1,6 @@
 from telegram import Update;
-from telegram import KeyboardButton;
-from telegram import ReplyKeyboardMarkup;
-from telegram import InlineKeyboardButton;
-from telegram import InlineKeyboardMarkup;
-from telegram.ext import Updater;
-from telegram.ext import CallbackContext;
-from telegram.ext import CommandHandler;
-from telegram.ext import MessageHandler;
-from telegram.ext import CallbackQueryHandler;
-from telegram.ext import Filters;
+from telegram import ReplyKeyboardRemove, KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup;
+from telegram.ext import Updater, CallbackContext, CommandHandler, MessageHandler, CallbackQueryHandler, Filters;
 import asyncio
 
 from library import calculate as calc
@@ -16,6 +8,7 @@ from config import config
 from data import db
 from library import calculate, rock_scissors_paper
 #from penguinl_x import penguinl_x
+# from library_x.reply_markup import r_kb_m_maker
 import os, time;  # apiai,
 
 from config.config import P_Bot;
@@ -317,6 +310,7 @@ class App():
                 chat_id=chat_id,
                 text="*" + text + "*" if p_m == "markdown" else "<em>" + text + "</em>",
                 parse_mode=p_m,
+                # reply_markup=r_kb_m_maker(ReplyKeyboardMarkup, KeyboardButton, l_event)
                 reply_markup=ReplyKeyboardMarkup([
                     list(
                         (KeyboardButton("/show_all_in {0:s}".format(q)) for q in l_event)
