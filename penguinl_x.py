@@ -9,7 +9,7 @@ from aiogram.types import ReplyKeyboardRemove, KeyboardButton, ReplyKeyboardMark
 
 from config.config import P_Bot
 from library.rock_scissors_paper import rock_scissors_paper
-from library_x.edit_hadle import *
+from library_x.edit_handle import *
 from library_x.reply_markup import r_kb_m_maker
 load_dotenv()
 p_token = os.getenv("p_token")
