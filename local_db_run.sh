@@ -3,4 +3,4 @@
 sudo systemctl restart postgresql.service
 
 source ~/venv/bin/activate
-sudo pgadmin4
+pgadmin4 #sudo pgadmin4

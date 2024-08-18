@@ -26,6 +26,18 @@ class P_db:
             password=password
         );
         app.p_user_db = app.conn.cursor();
+    def non_init(app):
+        app.p_user_db.execute("""
+            ALTER
+            DATABASE
+            data_of_peng
+            REFRESH
+            COLLATION
+            VERSION
+            """
+        );
+        app.commit_changes_db();
+
 
     def init_db(app):
         """
@@ -66,5 +78,6 @@ class P_db:
             .
         """
         app.connect_to_db();
+        app.non_init();
         app.init_db();
         app.disconnect_user_db();
