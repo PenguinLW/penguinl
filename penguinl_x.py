@@ -44,7 +44,7 @@ class AppPeng:
 
         @self.dp.message_handler(commands=['el_minutero'])
         async def handle_el_minutero(message: types.Message):
-            await el_minutero()
+            await el_minutero(self, message)
 
         @self.dp.message_handler(commands=['show_all_in'])
         async def handle_show_all_in(message: types.Message):

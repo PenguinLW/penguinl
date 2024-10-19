@@ -23,7 +23,7 @@ async def el_minutero(app_peng, message: types.Message):
     await app_peng.bot.send_message(chat_id=message.chat.id, text=f'Анализирую полученные данные ..')
 
     await asyncio.sleep(2)
-    app_peng.p_inf.estab_unplan(chat_id=message.chat_id, tmp);
+    app_peng.p_inf.estab_unplan(message.chat_id, tmp);
 
     await app_peng.bot.edit_message_text(
         chat_id=message.chat.id,
