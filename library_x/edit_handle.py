@@ -1,5 +1,5 @@
 
-from aiogram import Bot, types, Dispatcher, executor
+from aiogram import Bot, types, Dispatcher#, executor
 # from dotenv import load_dotenv
 import os
 import asyncio
